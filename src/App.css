@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Space-Age';
+  src: url('./fonts/space age.ttf');
+}
+
+.font-space-age{
+  font-family: 'Space-Age'
+}
+
 .App {
   text-align: center;
 }
@@ -19,4 +28,10 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.bg-center{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
