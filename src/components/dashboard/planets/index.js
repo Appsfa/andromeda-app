@@ -36,12 +36,21 @@ class Planets extends React.Component{
     this.handleEditGoBackChange = this.handleImageChange.bind(this);
   }
 
-  openModalUpdate(event){
-    console.log($(event.target).attr('data-planet'));
-    this.getPlanet($(event.target).attr('data-planet'));
-    $("#modalEditPlanet").modal('show');
-  }
 
+ /*  _    _          _   _ _____  _      ______  _____   _____  ______    _____ _____  ______          _____
+ | |  | |   /\   | \ | |  __ \| |    |  ____|/ ____| |  __ \|  ____|  / ____|  __ \|  ____|   /\   |  __ \
+ | |__| |  /  \  |  \| | |  | | |    | |__  | (___   | |  | | |__    | |    | |__) | |__     /  \  | |__) |
+ |  __  | / /\ \ | . ` | |  | | |    |  __|  \___ \  | |  | |  __|   | |    |  _  /|  __|   / /\ \ |  _  /
+ | |  | |/ ____ \| |\  | |__| | |____| |____ ____) | | |__| | |____  | |____| | \ \| |____ / ____ \| | \ \
+ |_|  |_/_/    \_\_| \_|_____/|______|______|_____/  |_____/|______|  \_____|_|  \_\______/_/    \_\_|  \_\
+
+                                                                                                           */
+
+/**
+ * -----------------------------------------------------------------------
+ *                             HANLDE DE UPDATE
+ * -----------------------------------------------------------------------
+ */
   handleEditPlanetChange(event){
     this.setState({newPlanet: event.target.value});
   }
@@ -50,12 +59,30 @@ class Planets extends React.Component{
     this.setState({image: event.target.value});
   }
 
+  /**
+   * -----------------------------------------------------------------------
+   *                             HANLDE DE CREATE
+   * -----------------------------------------------------------------------
+   */
+
   handlePlanetChange(event){
     this.setState({planet: event.target.value});
   }
 
   handleImageChange(event){
     this.setState({image: event.target.value});
+  }
+
+/**
+ * -----------------------------------------------------------------------
+ *                            ABRIR MODAL UPDATE
+ * -----------------------------------------------------------------------
+ */
+
+  openModalUpdate(event){
+    console.log($(event.target).attr('data-planet'));
+    this.getPlanet($(event.target).attr('data-planet'));
+    $("#modalEditPlanet").modal('show');
   }
 
 
@@ -116,6 +143,12 @@ class Planets extends React.Component{
 
   }
 
+/**
+ * -----------------------------------------------------------------------
+ *                              CREAR PLANETA
+ * -----------------------------------------------------------------------
+ */
+
   createPlanet(event){
     let currentComponent = this;
     event.preventDefault();
@@ -145,6 +178,12 @@ class Planets extends React.Component{
     });
 
   }
+
+/**
+ * -----------------------------------------------------------------------
+ *                            RENDERIZA PLANETAS
+ * -----------------------------------------------------------------------
+ */
 
   componentDidMount(){
     let currentComponent = this;

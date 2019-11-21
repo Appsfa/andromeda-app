@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navigation from './../../navigation';
 import SideNav from './../side-nav';
 import {Link} from 'react-router-dom';
+// import { Button } from 'react-bootstrap';
+// import Modal from 'react-bootstrap/Modal'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import $ from 'jquery';
 
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
@@ -11,6 +14,8 @@ const axios = require('axios');
 
 class Countries extends React.Component{
 
+  // const [show, setShow] = useState(false);
+
   constructor(props){
     super(props);
     this.state = {
@@ -18,12 +23,16 @@ class Countries extends React.Component{
       countries: [],
       country: '',
       image: '',
-      newCountry: ''
+      newCountry: '',
+      stateModal: false
     };
+
 
     this.createCountry = this.createCountry.bind(this);
     this.updateCountry = this.updateCountry.bind(this);
     this.getCountry = this.getCountry.bind(this);
+
+    this.setStateModal = this.setStateModal.bind(this);
 
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -32,10 +41,14 @@ class Countries extends React.Component{
     this.handleEditImageChange = this.handleEditImageChange.bind(this);
   }
 
+  setStateModal(){
+    this.setState({stateModal: !this.state.stateModal});
+  }
+
   openModalUpdate(event){
     console.log($(event.target).attr('data-country'));
     this.getCountry($(event.target).attr('data-country'));
-    $("#modalEditCountry").modal('show');
+    // $("#modalEditCountry").modal('show');
   }
 
   handleEditCountryChange(event){
@@ -54,12 +67,13 @@ class Countries extends React.Component{
     this.setState({image: event.target.value});
   }
 
-  getCountry(country){
+  getCountry(event){
     let currentComponent = this;
 
-    axios.get(`https://andromeda-api-buscabar.herokuapp.com/countries/${country}`)
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/countries/${$(event.target).attr('data-country')}`)
     .then(function (response) {
       console.log(response);
+      currentComponent.setStateModal();
       $("#txtEditCountry").val(response.data.country.country);
       $("#txtEditImage").val(response.data.country.image);
       currentComponent.setState({country: response.data.country.country, image: response.data.country.image});
@@ -90,6 +104,7 @@ class Countries extends React.Component{
     }, config)
     .then(function (response) {
       console.log(response);
+      currentComponent.setStateModal();
       currentComponent.componentDidMount();
       $("#btnUpdate").attr('disabled', 'disabled');
 
@@ -139,7 +154,7 @@ class Countries extends React.Component{
           return(
             <div class="col-12 border-bottom border-secondary py-2 no-under-line-hover text-black d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
               <Link to={"/dashboard/countries/" + country.country}>{country.country}</Link>
-              <button class="btn" onClick={currentComponent.openModalUpdate} data-country={country.country} data-toggle="modal" data-target="#modalEditCountry">Options</button>
+              <button class="btn" onClick={currentComponent.getCountry} data-country={country.country}>Options</button>
             </div>
           )
         })
@@ -233,40 +248,31 @@ class Countries extends React.Component{
             </div>
           </div>
 
-          <div class="modal fade" id="modalEditCountry" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title text-black">Editar País</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form id="formUpdate" onSubmit={this.updateCountry}>
-                    <div class="form-row">
+          <div>
+            <Modal isOpen={this.state.stateModal} toggle={this.setStateModal}>
+              <ModalHeader>Modal title</ModalHeader>
+              <ModalBody>
+                <form id="formUpdate">
+                  <div class="form-row">
 
-                      <div class="col-12 form-group px-2">
-                        <label for="txtEditCountry" class="black-text">País</label>
-                        <input class="form-control material-design-black" onChange={this.handleEditCountryChange} type="text" placeholder="País" id="txtEditCountry" required />
-                      </div>
-
-                      <div class="col-12 form-group px-2">
-                        <label for="txtEditImage" class="black-text">Imágen de bandera</label>
-                        <input class="form-control material-design-black" onChange={this.handleEditImageChange} type="text" placeholder="Imágen de bandera"  id="txtEditImage" />
-                      </div>
-
+                    <div class="col-12 form-group px-2">
+                      <label for="txtEditCountry" class="black-text">País</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditCountryChange} type="text" placeholder="País" id="txtEditCountry" required />
                     </div>
-                  </form>
-                </div>
 
-                <div class="px-3 mb-3">
-                  <button type="submit" id="btnUpdate" form="formUpdate" class="btn btn-success w-100 mb-2">Guardar País</button>
-                  <button type="button" class="btn btn-danger w-100" data-dismiss="modal">Cancelar</button>
-                </div>
+                    <div class="col-12 form-group px-2">
+                      <label for="txtEditImage" class="black-text">Imágen de bandera</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditImageChange} type="text" placeholder="Imágen de bandera"  id="txtEditImage" />
+                    </div>
 
+                  </div>
+                </form>
+              </ModalBody>
+              <div class="px-3 mb-3">
+                <button type="submit" id="btnUpdate" form="formUpdate" class="btn btn-success w-100 mb-2" onClick={this.updateCountry}>Guardar País</button>
+                <button type="button" class="btn btn-danger w-100" onClick={this.setStateModal}>Cancelar</button>
               </div>
-            </div>
+            </Modal>
           </div>
 
         </div>
