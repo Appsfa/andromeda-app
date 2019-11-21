@@ -20,7 +20,7 @@ import Country from './components/dashboard/countries/country';
 import Planets from './components/dashboard/planets/index';
 import Classes from './components/dashboard/classes/index';
 import Status from './components/dashboard/status/index';
-
+import Spaceships from './components/dashboard/spaceships/index';
 
 
 const App = () => (
@@ -28,6 +28,7 @@ const App = () => (
     <Route path="/home" component={Home} />
     <Route path="/start" component={Start} />
     <Route path="/login" component={Login} />
+    <Route exact path="/dashboard/spaceships" component={Spaceships} />
     <Route exact path="/dashboard/status" component={Status} />
     <Route exact path="/dashboard/classes" component={Classes} />
     <Route exact path="/dashboard/planets" component={Planets} />
