@@ -54,6 +54,30 @@
   color: #09d3ac;
 }
 
+.icon{
+    font-size: 35px;
+}
+
+.icon-xs{
+    font-size: 10px;
+}
+
+.icon-sm{
+    font-size: 15px;
+}
+
+.icon-md{
+    font-size: 25px;
+}
+
+.icon-lg{
+    font-size: 45px;
+}
+
+.icon-xl{
+    font-size: 65px;
+}
+
 .text-black{
   color: black !important;
 }

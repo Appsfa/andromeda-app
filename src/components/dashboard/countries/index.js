@@ -16,16 +16,27 @@ class Countries extends React.Component{
     this.state = {
       profile: window.localStorage,
       countries: [],
-      country: ''
+      country: '',
+      image: ''
     };
 
     this.createCountry = this.createCountry.bind(this);
+    this.updateCountry = this.updateCountry.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
   }
 
   handleCountryChange(event){
     this.setState({country: event.target.value});
   }
+
+  handleImageChange(event){
+    this.setState({image: event.target.value});
+  }
+
+  updateCountry(event){
+
+  };
 
   createCountry(event){
     let currentComponent = this;
@@ -43,6 +54,7 @@ class Countries extends React.Component{
     axios.post('https://andromeda-api-buscabar.herokuapp.com/countries', {
 
         country: currentComponent.state.country,
+        image: currentComponent.state.image,
 
     }, config)
     .then(function (response) {
@@ -131,9 +143,50 @@ class Countries extends React.Component{
                   <form id="formCreate" onSubmit={this.createCountry}>
                     <div class="form-row">
 
-                      <div class="col-12 form-group px-2" id="attribute-0">
+                      <div class="col-12 form-group px-2">
                         <label for="txtCountry" class="black-text">País</label>
                         <input class="form-control material-design-black" value={this.state.country} onChange={this.handleCountryChange} type="text" placeholder="País" id="txtCountry" required />
+                      </div>
+
+                      <div class="col-12 form-group px-2">
+                        <label for="txtImage" class="black-text">Imágen de bandera</label>
+                        <input class="form-control material-design-black" value={this.state.image} onChange={this.handleImageChange} type="text" placeholder="Imágen de bandera"  id="txtImage" />
+                      </div>
+
+                    </div>
+                  </form>
+                </div>
+
+                <div class="px-3 mb-3">
+                  <button type="submit" form="formCreate" class="btn btn-success w-100 mb-2">Agregar País</button>
+                  <button type="button" class="btn btn-danger w-100" data-dismiss="modal">Cancelar</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="modalEditCountry" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-black">Agregar país</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form id="formUpdate" onSubmit={this.updateCountry}>
+                    <div class="form-row">
+
+                      <div class="col-12 form-group px-2">
+                        <label for="txtEditCountry" class="black-text">País</label>
+                        <input class="form-control material-design-black" value={this.state.country} onChange={this.handleCountryChange} type="text" placeholder="País" id="txtEditCountry" required />
+                      </div>
+
+                      <div class="col-12 form-group px-2">
+                        <label for="txtEditImage" class="black-text">Imágen de bandera</label>
+                        <input class="form-control material-design-black" value={this.state.image} onChange={this.handleImageChange} type="text" placeholder="Imágen de bandera"  id="txtEditImage" />
                       </div>
 
                     </div>
