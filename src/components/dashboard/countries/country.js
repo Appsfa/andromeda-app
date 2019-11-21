@@ -183,6 +183,7 @@ class Countries extends React.Component{
     this.setState({country: params.topicId});
     let currentComponent = this;
     console.log(currentComponent.state);
+    
     axios.get(`https://andromeda-api-buscabar.herokuapp.com/states/country/${params.topicId}`)
       .then(function (response) {
         // handle success
