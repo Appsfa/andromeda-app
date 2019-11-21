@@ -41,7 +41,7 @@ class Status extends React.Component{
 
     this.handleStatusChange = this.handleStatusChange.bind(this);
 
-    this.handleEditStatusChange = this.handleStatusChange.bind(this);
+    this.handleEditStatusChange = this.handleEditStatusChange.bind(this);
 
   }
 
@@ -133,7 +133,7 @@ class Status extends React.Component{
 
     axios.put(`https://andromeda-api-buscabar.herokuapp.com/status/${currentComponent.state.statu}`, {
 
-        statu: currentComponent.state.newStatus,
+        status: currentComponent.state.newStatus,
 
     }, config)
     .then(function (response) {
@@ -152,7 +152,7 @@ class Status extends React.Component{
   createStatus(event){
     let currentComponent = this;
     event.preventDefault();
-    // console.log(this.state);
+    console.log(this.state);
     // $("#modalAddStatus").modal('hide');
     var config = {
     headers: {
@@ -164,7 +164,7 @@ class Status extends React.Component{
 
     axios.post('https://andromeda-api-buscabar.herokuapp.com/status', {
 
-      status: currentComponent.state.status,
+      status: currentComponent.state.statu,
 
     }, config)
     .then(function (response) {
