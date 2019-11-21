@@ -16,12 +16,14 @@ import Home from './components/index';
 import Login from './components/login';
 import Dashboard from './components/dashboard/index';
 import Countries from './components/dashboard/countries/index';
+import Planets from './components/dashboard/planets/index';
 
 const App = () => (
   <BrowserRouter>
     <Route path="/home" component={Home} />
     <Route path="/start" component={Start} />
     <Route path="/login" component={Login} />
+    <Route exact path="/dashboard/planets" component={Planets} />
     <Route exact path="/dashboard/countries" component={Countries} />
     <Route exact path="/dashboard" component={Dashboard} />
 
