@@ -21,10 +21,8 @@ class Classes extends React.Component{
     this.state = {
       profile: window.localStorage,
       classes: [],
-      class: '',
       className: '',
       cost: '',
-      newClass: '',
       newClassName: '',
       newCost: '',
       stateModal: false,
@@ -71,11 +69,12 @@ class Classes extends React.Component{
   }
 
   handleEditClassNameChange(event){
-    this.setState({className: event.target.value});
+    this.setState({newClassName: event.target.value});
   }
 
   handleEditCostChange(event){
     this.setState({cost: event.target.value});
+    console.log(this.state);
   }
 
   handleClassNameChange(event){
@@ -98,7 +97,7 @@ class Classes extends React.Component{
 
     console.log(currentComponent.state);
 
-    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/classes/${currentComponent.state.class}`, config)
+    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/classes/${currentComponent.state.className}`, config)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModalDelete();
@@ -117,12 +116,12 @@ class Classes extends React.Component{
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModal();
-      currentComponent.setState({newClass: response.data.class.className, cost: response.data.class.cost, cost: cost});
+      currentComponent.setState({className: response.data.class.className, cost: response.data.class.cost});
       $("#txtEditClassName").val(response.data.class.className);
       $("#txtEditCost").val(response.data.class.cost);
 
       $("#btnUpdate").removeAttr('disabled', 'disabled');
-      $("#btnDelete").attr('data-class', class);
+      $("#btnDelete").attr('data-class', clase);
       $("#btnDelete").attr('data-message', `clase ${clase}`);
 
       console.log(currentComponent.state);
@@ -144,9 +143,9 @@ class Classes extends React.Component{
       }
     };
 
-    axios.put(`https://andromeda-api-buscabar.herokuapp.com/classes/${currentComponent.state.class}`, {
+    axios.put(`https://andromeda-api-buscabar.herokuapp.com/classes/${currentComponent.state.className}`, {
 
-        className: currentComponent.state.newClass,
+        className: currentComponent.state.newClassName,
         cost: currentComponent.state.cost,
 
 
@@ -203,8 +202,8 @@ class Classes extends React.Component{
         let classes = response.data.class.map((clase) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/classes/" + clase.name} class="d-flex align-items-center no-under-line-hover text-black">{clase.name}</Link>
-              <button class="btn material-icons icon-md" onClick={currentComponent.getClass} data-class={clase.name}>more_vert</button>
+              <Link to={"/dashboard/classes/" + clase.className} class="d-flex align-items-center no-under-line-hover text-black">{clase.className}</Link>
+              <button class="btn material-icons icon-md" onClick={currentComponent.getClass} data-class={clase.className}>more_vert</button>
             </div>
           )
         })
@@ -300,12 +299,12 @@ class Classes extends React.Component{
             <Modal isOpen={this.state.stateModal} toggle={this.setStateModal}>
               <ModalHeader toggle={this.setStateModal} close={<button class="btn material-icons icon-md" id="btnDelete" onClick={this.setStateModalDelete}>delete</button>} className="d-flex align-items-center">Editar Clase</ModalHeader>
               <ModalBody>
-                <form id="formUpdate" onSubmit={this.updateClass()}>
+                <form id="formUpdate" onSubmit={this.updateClass}>
                   <div class="form-row">
 
                     <div class="col-12 form-group px-2">
-                      <label for="txtEditClass" class="black-text">Clase</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditClassChange} type="text" placeholder="Clase" id="txtEditClass" required />
+                      <label for="txtEditClassName" class="black-text">Clase</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditClassNameChange} type="text" placeholder="Clase" id="txtEditClassName" required />
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">

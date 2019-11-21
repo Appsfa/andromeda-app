@@ -194,7 +194,10 @@ class Countries extends React.Component{
       .then(function (response) {
         // handle success
         console.log(response);
-        let states = response.data.state.map((state) => {
+        let states = response.data.state;
+        currentComponent.setState({states: states});
+        console.log(currentComponent.state);
+        states = response.data.state.map(state => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
               <Link to={"/dashboard/countries/" + state.state} class="d-flex align-items-center no-under-line-hover text-black">{state.state}</Link>
@@ -202,8 +205,6 @@ class Countries extends React.Component{
             </div>
           )
         })
-        currentComponent.setState({states: states});
-        console.log(currentComponent.state);
       })
       .catch(function (error) {
         // handle error
