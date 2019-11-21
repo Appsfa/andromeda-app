@@ -1,12 +1,10 @@
 import React from 'react';
 import Navigation from './navigation';
-import {Link} from 'react-router-dom';
-
 const axios = require('axios');
 
 // import './App.css';
 
-class MyComp extends React.Component{
+class MyCompStates extends React.Component{
 
   constructor(props){
     super(props);
@@ -27,9 +25,9 @@ class MyComp extends React.Component{
           return(
             <div class="col-6 col-md-4 col-lg-3">
               <div class="row p-3">
-                <Link to="states" class="col-12 d-flex align-items-center bg-center" style={{backgroundImage: `url(${country.image})`, height: "150px"}}>
+                <div class="col-12 d-flex align-items-center bg-center" style={{backgroundImage: `url(${country.image})`, height: "150px"}}>
                   <h3 class="mx-auto text-white"><b>{country.country}</b></h3>
-                </Link>
+                </div>
               </div>
             </div>
           )
@@ -61,7 +59,7 @@ class MyComp extends React.Component{
 
                 <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                   <div class="row">
-                    {this.state.countries}
+
                   </div>
                 </div>
 
@@ -75,4 +73,4 @@ class MyComp extends React.Component{
     }
 
 }
-export default MyComp;
+export default MyCompStates;
