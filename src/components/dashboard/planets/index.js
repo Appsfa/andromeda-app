@@ -26,6 +26,8 @@ class Planets extends React.Component{
       type: '',
       goBack: '',
       newPlanet: '',
+      newType: '',
+      newGoBack: '',
       stateModal: false,
       stateModalCreate: false,
       stateModalDelete: false,
@@ -76,22 +78,22 @@ class Planets extends React.Component{
   }
 
   handleEditTypeChange(event){
-    this.setState({image: event.target.value});
+    this.setState({type: event.target.value});
   }
 
   handleEditGoBackChange(event){
-    this.setState({image: event.target.value});
+    this.setState({goBack: event.target.value});
   }
 
   handlePlanetChange(event){
-    this.setState({planet: event.target.value});
+    this.setState({name: event.target.value});
   }
 
   handleTypeChange(event){
-    this.setState({image: event.target.value});
+    this.setState({type: event.target.value});
   }
   handleGoBackChange(event){
-    this.setState({image: event.target.value});
+    this.setState({goBack: event.target.value});
   }
 
   deletePlanet(){
@@ -126,12 +128,16 @@ class Planets extends React.Component{
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModal();
-      $("#txtEditPlanet").val(response.data.planet.planet);
-      $("#txtEditImage").val(response.data.planet.image);
-      currentComponent.setState({planet: response.data.planet.planet, image: response.data.planet.image});
+      currentComponent.setState({newPlanet: response.data.planet.name, type: response.data.planet.type, goBack: response.data.planet.goBack, planet: planet});
+      $("#txtEditPlanet").val(response.data.planet.name);
+      $("#txtEditType").val(response.data.planet.type);
+      $("#txtEditGoBack").val(response.data.planet.goBack);
+
       $("#btnUpdate").removeAttr('disabled', 'disabled');
       $("#btnDelete").attr('data-planet', planet);
       $("#btnDelete").attr('data-message', `planeta ${planet}`);
+
+      console.log(currentComponent.state);
     })
     .catch(function (error) {
       console.log(error);
@@ -152,8 +158,8 @@ class Planets extends React.Component{
 
     axios.put(`https://andromeda-api-buscabar.herokuapp.com/planets/${currentComponent.state.planet}`, {
 
-        planet: currentComponent.state.newPlanet,
-        name: currentComponent.state.name,
+        name: currentComponent.state.newPlanet,
+        type: currentComponent.state.type,
         goBack: currentComponent.state.goBack,
 
 
@@ -174,7 +180,7 @@ class Planets extends React.Component{
   createPlanet(event){
     let currentComponent = this;
     event.preventDefault();
-    console.log(this.state);
+    // console.log(this.state);
     // $("#modalAddPlanet").modal('hide');
     var config = {
     headers: {
@@ -186,8 +192,8 @@ class Planets extends React.Component{
 
     axios.post('https://andromeda-api-buscabar.herokuapp.com/planets', {
 
-      planet: currentComponent.state.newPlanet,
       name: currentComponent.state.name,
+      type: currentComponent.state.type,
       goBack: currentComponent.state.goBack,
 
     }, config)
@@ -270,6 +276,12 @@ class Planets extends React.Component{
           </div>
 
 
+          {/**
+ * -----------------------------------------------------------------------
+ *                               MODAL CREATE
+ * -----------------------------------------------------------------------
+ */}
+
           <div>
             <Modal isOpen={this.state.stateModalCreate} toggle={this.setStateModalCreate}>
               <ModalHeader toggle={this.setStateModalCreate}>Agregar Planeta</ModalHeader>
@@ -283,13 +295,13 @@ class Planets extends React.Component{
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtImage" class="black-text">Tipo de planet</label>
-                      <input class="form-control material-design-black" onChange={this.handleTypeChange} type="text" placeholder="Tipo de planeta"  id="txtType" />
+                      <label for="txtType" class="black-text">Tipo de planet</label>
+                      <input class="form-control material-design-black" onChange={this.handleTypeChange} type="text" placeholder="Tipo de planeta" id="txtType" />
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtImage" class="black-text">¿Regresarás?</label>
-                      <input class="form-control material-design-black" onChange={this.handleGoBackChange} type="text" placeholder="¿Regresarás?"  id="txtGoBack" />
+                      <label for="txtGoBack" class="black-text">¿Regresarás?</label>
+                      <input class="form-control material-design-black" onChange={this.handleGoBackChange} type="text" placeholder="¿Regresarás?" id="txtGoBack" />
                     </div>
 
                   </div>
@@ -315,13 +327,13 @@ class Planets extends React.Component{
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtEditImage" class="black-text">Tipo de planeta</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditTypeChange} type="text" placeholder="Tipo de planeta"  id="txtEditType" />
+                      <label for="txtEditType" class="black-text">Tipo de planeta</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditTypeChange} type="text" placeholder="Tipo de planeta"  id="txtEditType" required />
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtEditImage" class="black-text">Imágen de bandera</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditGoBackChange} type="text" placeholder="¿Regresarás?"  id="txtEditGoBack" />
+                      <label for="txtEditGoBack" class="black-text">Imágen de bandera</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditGoBackChange} type="text" placeholder="¿Regresarás?"  id="txtEditGoBack" required />
                     </div>
 
                   </div>
