@@ -14,16 +14,18 @@ import "toasted-notes/src/styles.css"; // optional styles
 
 const axios = require('axios');
 
-class Countries extends React.Component{
+class Planets extends React.Component{
 
   constructor(props){
     super(props);
     this.state = {
       profile: window.localStorage,
-      countries: [],
-      country: '',
-      image: '',
-      newCountry: '',
+      planets: [],
+      planet: '',
+      name: '',
+      type: '',
+      goBack: '',
+      newPlanet: '',
       stateModal: false,
       stateModalCreate: false,
       stateModalDelete: false,
@@ -31,20 +33,23 @@ class Countries extends React.Component{
     };
 
 
-    this.createCountry = this.createCountry.bind(this);
-    this.updateCountry = this.updateCountry.bind(this);
-    this.getCountry = this.getCountry.bind(this);
-    this.deleteCountry = this.deleteCountry.bind(this);
+    this.createPlanet = this.createPlanet.bind(this);
+    this.updatePlanet = this.updatePlanet.bind(this);
+    this.getPlanet = this.getPlanet.bind(this);
+    this.deletePlanet = this.deletePlanet.bind(this);
 
     this.setStateModal = this.setStateModal.bind(this);
     this.setStateModalCreate = this.setStateModalCreate.bind(this);
     this.setStateModalDelete = this.setStateModalDelete.bind(this);
 
-    this.handleCountryChange = this.handleCountryChange.bind(this);
-    this.handleImageChange = this.handleImageChange.bind(this);
+    this.handlePlanetChange = this.handlePlanetChange.bind(this);
+    this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.handleGoBackChange = this.handleGoBackChange.bind(this);
     this.openModalUpdate = this.openModalUpdate.bind(this);
-    this.handleEditCountryChange = this.handleEditCountryChange.bind(this);
-    this.handleEditImageChange = this.handleEditImageChange.bind(this);
+    this.handleEditPlanetChange = this.handleEditPlanetChange.bind(this);
+    this.handleEditTypeChange = this.handleEditTypeChange.bind(this);
+    this.handleEditGoBackChange = this.handleEditGoBackChange.bind(this);
+
   }
 
   setStateModalDelete(event){
@@ -66,23 +71,30 @@ class Countries extends React.Component{
     this.setState({stateModalCreate: !this.state.stateModalCreate});
   }
 
-  handleEditCountryChange(event){
-    this.setState({newCountry: event.target.value});
+  handleEditPlanetChange(event){
+    this.setState({newPlanet: event.target.value});
   }
 
-  handleEditImageChange(event){
+  handleEditTypeChange(event){
     this.setState({image: event.target.value});
   }
 
-  handleCountryChange(event){
-    this.setState({country: event.target.value});
-  }
-
-  handleImageChange(event){
+  handleEditGoBackChange(event){
     this.setState({image: event.target.value});
   }
 
-  deleteCountry(){
+  handlePlanetChange(event){
+    this.setState({planet: event.target.value});
+  }
+
+  handleTypeChange(event){
+    this.setState({image: event.target.value});
+  }
+  handleGoBackChange(event){
+    this.setState({image: event.target.value});
+  }
+
+  deletePlanet(){
     let currentComponent = this;
 
     var config = {
@@ -95,7 +107,7 @@ class Countries extends React.Component{
 
     console.log(currentComponent.state);
 
-    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/countries/${currentComponent.state.country}`, config)
+    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/planets/${currentComponent.state.planet}`, config)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModalDelete();
@@ -106,27 +118,27 @@ class Countries extends React.Component{
     });
   }
 
-  getCountry(event){
+  getPlanet(event){
     let currentComponent = this;
-    let country = $(event.target).attr('data-country');
+    let planet = $(event.target).attr('data-planet');
 
-    axios.get(`https://andromeda-api-buscabar.herokuapp.com/countries/${$(event.target).attr('data-country')}`)
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/planets/${$(event.target).attr('data-planet')}`)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModal();
-      $("#txtEditCountry").val(response.data.country.country);
-      $("#txtEditImage").val(response.data.country.image);
-      currentComponent.setState({country: response.data.country.country, image: response.data.country.image});
+      $("#txtEditPlanet").val(response.data.planet.planet);
+      $("#txtEditImage").val(response.data.planet.image);
+      currentComponent.setState({planet: response.data.planet.planet, image: response.data.planet.image});
       $("#btnUpdate").removeAttr('disabled', 'disabled');
-      $("#btnDelete").attr('data-country', country);
-      $("#btnDelete").attr('data-message', `país ${country}`);
+      $("#btnDelete").attr('data-planet', planet);
+      $("#btnDelete").attr('data-message', `planeta ${planet}`);
     })
     .catch(function (error) {
       console.log(error);
     });
   }
 
-  updateCountry(event){
+  updatePlanet(event){
     let currentComponent = this;
     event.preventDefault();
     console.log(this.state);
@@ -138,10 +150,12 @@ class Countries extends React.Component{
       }
     };
 
-    axios.put(`https://andromeda-api-buscabar.herokuapp.com/countries/${currentComponent.state.country}`, {
+    axios.put(`https://andromeda-api-buscabar.herokuapp.com/planets/${currentComponent.state.planet}`, {
 
-        country: currentComponent.state.newCountry,
-        image: currentComponent.state.image,
+        planet: currentComponent.state.newPlanet,
+        name: currentComponent.state.name,
+        goBack: currentComponent.state.goBack,
+
 
     }, config)
     .then(function (response) {
@@ -157,11 +171,11 @@ class Countries extends React.Component{
 
   }
 
-  createCountry(event){
+  createPlanet(event){
     let currentComponent = this;
     event.preventDefault();
     console.log(this.state);
-    // $("#modalAddCountry").modal('hide');
+    // $("#modalAddPlanet").modal('hide');
     var config = {
     headers: {
       'content-type': 'application/json',
@@ -170,10 +184,11 @@ class Countries extends React.Component{
     }
 };
 
-    axios.post('https://andromeda-api-buscabar.herokuapp.com/countries', {
+    axios.post('https://andromeda-api-buscabar.herokuapp.com/planets', {
 
-        country: currentComponent.state.country,
-        image: currentComponent.state.image,
+      planet: currentComponent.state.newPlanet,
+      name: currentComponent.state.name,
+      goBack: currentComponent.state.goBack,
 
     }, config)
     .then(function (response) {
@@ -189,20 +204,20 @@ class Countries extends React.Component{
 
   componentDidMount(){
     let currentComponent = this;
-    axios.get('https://andromeda-api-buscabar.herokuapp.com/countries/')
+    axios.get('https://andromeda-api-buscabar.herokuapp.com/planets/')
       .then(function (response) {
         // handle success
         console.log(response);
-        let countries = response.data.country.map((country) => {
+        let planets = response.data.planet.map((planet) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/countries/" + country.country} class="d-flex align-items-center no-under-line-hover text-black">{country.country}</Link>
-              <button class="btn material-icons icon-md" onClick={currentComponent.getCountry} data-country={country.country}>more_vert</button>
+              <Link to={"/dashboard/planets/" + planet.planet} class="d-flex align-items-center no-under-line-hover text-black">{planet.planet}</Link>
+              <button class="btn material-icons icon-md" onClick={currentComponent.getPlanet} data-planet={planet.planet}>more_vert</button>
             </div>
           )
         })
-        currentComponent.setState({countries: countries});
-        console.log(`State: ${currentComponent.state.countries}`);
+        currentComponent.setState({planets: planets});
+        console.log(`State: ${currentComponent.state.planets}`);
       })
       .catch(function (error) {
         // handle error
@@ -229,11 +244,11 @@ class Countries extends React.Component{
               <div class="col-12 col-sm-12 col-md-10 col-lg-5 col-xl-7 pt-4">
                 <div class="row">
                   <div class="col-12 mb-3">
-                    <h1><b>Paises</b></h1>
+                    <h1><b>Planetas</b></h1>
                   </div>
                   <div class="col-12">
                     <div class="row">
-                      {this.state.countries}
+                      {this.state.planets}
                     </div>
                   </div>
                 </div>
@@ -248,7 +263,7 @@ class Countries extends React.Component{
           <div class="position-fixed text-right p-4" style={{bottom: "0px", right: "0px"}}>
             <ul id="menuAdd" class="menu p-0 text-decoration-none mr-2 mb-0 pb-3 d-none" style={{listStyleType: "none"}}>
               <li class="mt-3">
-                Agregar País <button data-menu="#menuAdd" onClick={this.setStateModalCreate} class="btn-close-menu-bottom btn btn-blue rounded-circle shadow-lg btn-sm ml-2"><i class="material-icons mt-1">account_balance</i></button>
+                Agregar Planet <button data-menu="#menuAdd" onClick={this.setStateModalCreate} class="btn-close-menu-bottom btn btn-blue rounded-circle shadow-lg btn-sm ml-2"><i class="material-icons mt-1">account_balance</i></button>
               </li>
             </ul>
             <button type="button" id="btnOpenOptions" data-menu="#menuAdd" class="open-menu-bottom btn btn-success rounded-circle shadow-lg btn-lg"><i class="material-icons mt-2">add</i></button>
@@ -257,26 +272,31 @@ class Countries extends React.Component{
 
           <div>
             <Modal isOpen={this.state.stateModalCreate} toggle={this.setStateModalCreate}>
-              <ModalHeader toggle={this.setStateModalCreate}>Agregar País</ModalHeader>
+              <ModalHeader toggle={this.setStateModalCreate}>Agregar Planeta</ModalHeader>
               <ModalBody>
-                <form id="formCreate" onSubmit={this.createCountry}>
+                <form id="formCreate" onSubmit={this.createPlanet}>
                   <div class="form-row">
 
                     <div class="col-12 form-group px-2">
-                      <label for="txtCountry" class="black-text">País</label>
-                      <input class="form-control material-design-black" onChange={this.handleCountryChange} type="text" placeholder="País" id="txtCountry" required />
+                      <label for="txtPlanet" class="black-text">Planeta</label>
+                      <input class="form-control material-design-black" onChange={this.handlePlanetChange} type="text" placeholder="Planeta" id="txtPlanet" required />
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtImage" class="black-text">Imágen de bandera</label>
-                      <input class="form-control material-design-black" onChange={this.handleImageChange} type="text" placeholder="Imágen de bandera"  id="txtImage" />
+                      <label for="txtImage" class="black-text">Tipo de planet</label>
+                      <input class="form-control material-design-black" onChange={this.handleTypeChange} type="text" placeholder="Tipo de planeta"  id="txtType" />
+                    </div>
+
+                    <div class="col-12 form-group px-2 mb-4">
+                      <label for="txtImage" class="black-text">¿Regresarás?</label>
+                      <input class="form-control material-design-black" onChange={this.handleGoBackChange} type="text" placeholder="¿Regresarás?"  id="txtGoBack" />
                     </div>
 
                   </div>
                 </form>
               </ModalBody>
               <div class="px-3 mb-3">
-                <button type="submit" form="formCreate" class="btn btn-success w-100 mb-2">Agregar País</button>
+                <button type="submit" form="formCreate" class="btn btn-success w-100 mb-2">Agregar Planeta</button>
                 <button type="button" class="btn btn-danger w-100" onClick={this.setStateModalCreate}>Cancelar</button>
               </div>
             </Modal>
@@ -284,26 +304,31 @@ class Countries extends React.Component{
 
           <div>
             <Modal isOpen={this.state.stateModal} toggle={this.setStateModal}>
-              <ModalHeader toggle={this.setStateModal} close={<button class="btn material-icons icon-md" id="btnDelete" onClick={this.setStateModalDelete}>delete</button>} className="d-flex align-items-center">Editar País</ModalHeader>
+              <ModalHeader toggle={this.setStateModal} close={<button class="btn material-icons icon-md" id="btnDelete" onClick={this.setStateModalDelete}>delete</button>} className="d-flex align-items-center">Editar Planeta</ModalHeader>
               <ModalBody>
-                <form id="formUpdate" onSubmit={this.updateCountry}>
+                <form id="formUpdate" onSubmit={this.updatePlanet}>
                   <div class="form-row">
 
                     <div class="col-12 form-group px-2">
-                      <label for="txtEditCountry" class="black-text">País</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditCountryChange} type="text" placeholder="País" id="txtEditCountry" required />
+                      <label for="txtEditPlanet" class="black-text">Planeta</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditPlanetChange} type="text" placeholder="Planeta" id="txtEditPlanet" required />
+                    </div>
+
+                    <div class="col-12 form-group px-2 mb-4">
+                      <label for="txtEditImage" class="black-text">Tipo de planeta</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditTypeChange} type="text" placeholder="Tipo de planeta"  id="txtEditType" />
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
                       <label for="txtEditImage" class="black-text">Imágen de bandera</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditImageChange} type="text" placeholder="Imágen de bandera"  id="txtEditImage" />
+                      <input class="form-control material-design-black" onChange={this.handleEditGoBackChange} type="text" placeholder="¿Regresarás?"  id="txtEditGoBack" />
                     </div>
 
                   </div>
                 </form>
               </ModalBody>
               <div class="px-3 mb-3">
-                <button type="submit" id="btnUpdate" form="formUpdate" class="btn btn-success w-100 mb-2">Guardar País</button>
+                <button type="submit" id="btnUpdate" form="formUpdate" class="btn btn-success w-100 mb-2">Guardar Planeta</button>
                 <button type="button" class="btn btn-danger w-100" onClick={this.setStateModal}>Cancelar</button>
               </div>
             </Modal>
@@ -329,7 +354,7 @@ class Countries extends React.Component{
                           <button onClick={this.setStateModalDelete} class="btn rounded-0 col-6 p-0 border-top border-right text-center text-danger cursor-pointer py-2" data-dismiss="modal" id="btn-cancel-modal-delete">
                             Cancelar
                           </button>
-                          <button onClick={this.deleteCountry} class="btn rounded-0 col-6 p-0 border-top text-center text-primary cursor-pointer py-2" id="btnAcceptDelete" data-country={this.state.country}>
+                          <button onClick={this.deletePlanet} class="btn rounded-0 col-6 p-0 border-top text-center text-primary cursor-pointer py-2" id="btnAcceptDelete" data-planet={this.state.planet}>
                             <b>Aceptar</b>
                           </button>
                         </div>
@@ -346,4 +371,4 @@ class Countries extends React.Component{
   }
 }
 
-export default Countries;
+export default Planets;
