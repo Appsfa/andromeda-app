@@ -9,60 +9,60 @@ import $ from 'jquery';
 
 const axios = require('axios');
 
-class Countries extends React.Component{
+class Planets extends React.Component{
 
   constructor(props){
     super(props);
     this.state = {
       profile: window.localStorage,
-      countries: [],
-      country: '',
+      planets: [],
+      planet: '',
       image: '',
-      newCountry: ''
+      newPlanet: ''
     };
 
-    this.createCountry = this.createCountry.bind(this);
-    this.updateCountry = this.updateCountry.bind(this);
-    this.getCountry = this.getCountry.bind(this);
+    this.createPlanet = this.createPlanet.bind(this);
+    this.updatePlanet = this.updatePlanet.bind(this);
+    this.getPlanet = this.getPlanet.bind(this);
 
-    this.handleCountryChange = this.handleCountryChange.bind(this);
+    this.handlePlanetChange = this.handlePlanetChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.openModalUpdate = this.openModalUpdate.bind(this);
-    this.handleEditCountryChange = this.handleEditCountryChange.bind(this);
+    this.handleEditPlanetChange = this.handleEditPlanetChange.bind(this);
     this.handleEditImageChange = this.handleEditImageChange.bind(this);
   }
 
   openModalUpdate(event){
-    console.log($(event.target).attr('data-country'));
-    this.getCountry($(event.target).attr('data-country'));
-    $("#modalEditCountry").modal('show');
+    console.log($(event.target).attr('data-planet'));
+    this.getPlanet($(event.target).attr('data-planet'));
+    $("#modalEditPlanet").modal('show');
   }
 
-  handleEditCountryChange(event){
-    this.setState({newCountry: event.target.value});
+  handleEditPlanetChange(event){
+    this.setState({newPlanet: event.target.value});
   }
 
   handleEditImageChange(event){
     this.setState({image: event.target.value});
   }
 
-  handleCountryChange(event){
-    this.setState({country: event.target.value});
+  handlePlanetChange(event){
+    this.setState({planet: event.target.value});
   }
 
   handleImageChange(event){
     this.setState({image: event.target.value});
   }
 
-  getCountry(country){
+  getPlanet(planet){
     let currentComponent = this;
 
-    axios.get(`https://andromeda-api-buscabar.herokuapp.com/countries/${country}`)
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/Planets/${planet}`)
     .then(function (response) {
       console.log(response);
-      $("#txtEditCountry").val(response.data.country.country);
-      $("#txtEditImage").val(response.data.country.image);
-      currentComponent.setState({country: response.data.country.country, image: response.data.country.image});
+      $("#txtEditPlanet").val(response.data.planet.planet);
+      $("#txtEditImage").val(response.data.planet.image);
+      currentComponent.setState({planet: response.data.planet.planet, image: response.data.planet.image});
       $("#btnUpdate").removeAttr('disabled', 'disabled');
     })
     .catch(function (error) {
@@ -70,7 +70,7 @@ class Countries extends React.Component{
     });
   }
 
-  updateCountry(event){
+  updatePlanet(event){
     let currentComponent = this;
     event.preventDefault();
     console.log(this.state);
@@ -82,9 +82,9 @@ class Countries extends React.Component{
       }
     };
 
-    axios.put(`https://andromeda-api-buscabar.herokuapp.com/countries/${currentComponent.state.country}`, {
+    axios.put(`https://andromeda-api-buscabar.herokuapp.com/planets/${currentComponent.state.planet}`, {
 
-        country: currentComponent.state.newCountry,
+        planet: currentComponent.state.newPlanet,
         image: currentComponent.state.image,
 
     }, config)
@@ -100,11 +100,11 @@ class Countries extends React.Component{
 
   }
 
-  createCountry(event){
+  createPlanet(event){
     let currentComponent = this;
     event.preventDefault();
     console.log(this.state);
-    // $("#modalAddCountry").modal('hide');
+    // $("#modalAddPlanet").modal('hide');
     var config = {
     headers: {
       'content-type': 'application/json',
@@ -113,9 +113,9 @@ class Countries extends React.Component{
     }
 };
 
-    axios.post('https://andromeda-api-buscabar.herokuapp.com/countries', {
+    axios.post('https://andromeda-api-buscabar.herokuapp.com/planets', {
 
-        country: currentComponent.state.country,
+        planet: currentComponent.state.planet,
         image: currentComponent.state.image,
 
     }, config)
@@ -131,20 +131,20 @@ class Countries extends React.Component{
 
   componentDidMount(){
     let currentComponent = this;
-    axios.get('https://andromeda-api-buscabar.herokuapp.com/countries/')
+    axios.get('https://andromeda-api-buscabar.herokuapp.com/planets/')
       .then(function (response) {
         // handle success
         console.log(response);
-        let countries = response.data.country.map((country) => {
+        let planets = response.data.planet.map((planet) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 no-under-line-hover text-black d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/countries/" + country.country}>{country.country}</Link>
-              <button class="btn" onClick={currentComponent.openModalUpdate} data-country={country.country} data-toggle="modal" data-target="#modalEditCountry">Options</button>
+              <Link to={"/dashboard/planets/" + planet.planet}>{planet.planet}</Link>
+              <button class="btn" onClick={currentComponent.openModalUpdate} data-planet={planet.planet} data-toggle="modal" data-target="#modalEditPlanet">Options</button>
             </div>
           )
         })
-        currentComponent.setState({countries: countries});
-        console.log(`State: ${currentComponent.state.countries}`);
+        currentComponent.setState({planets: planets});
+        console.log(`State: ${currentComponent.state.planets}`);
       })
       .catch(function (error) {
         // handle error
@@ -171,11 +171,11 @@ class Countries extends React.Component{
               <div class="col-12 col-sm-12 col-md-10 col-lg-5 col-xl-7 pt-4">
                 <div class="row">
                   <div class="col-12 mb-3">
-                    <h1><b>Paises</b></h1>
+                    <h1><b>Planetas</b></h1>
                   </div>
                   <div class="col-12">
                     <div class="row">
-                      {this.state.countries}
+                      {this.state.planets}
                     </div>
                   </div>
                 </div>
@@ -190,34 +190,34 @@ class Countries extends React.Component{
           <div class="position-fixed text-right p-4" style={{bottom: "0px", right: "0px"}}>
             <ul id="menuAdd" class="menu p-0 text-decoration-none mr-2 mb-0 pb-3 d-none" style={{listStyleType: "none"}}>
               <li class="mt-3">
-                Agregar País <button data-menu="#menuAdd" data-target="#modalAddCountry" data-toggle="modal" class="btn-close-menu-bottom btn btn-blue rounded-circle shadow-lg btn-sm ml-2"><i class="material-icons mt-1">account_balance</i></button>
+                Agregar Planetas <button data-menu="#menuAdd" data-target="#modalAddPlanet" data-toggle="modal" class="btn-close-menu-bottom btn btn-blue rounded-circle shadow-lg btn-sm ml-2"><i class="material-icons mt-1">account_balance</i></button>
               </li>
             </ul>
             <button type="button" id="btnOpenOptions" data-menu="#menuAdd" class="open-menu-bottom btn btn-success rounded-circle shadow-lg btn-lg"><i class="material-icons mt-2">add</i></button>
           </div>
 
 
-          <div class="modal fade" id="modalAddCountry" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal fade" id="modalAddPlanet" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title text-black">Agregar país</h5>
+                  <h5 class="modal-title text-black">Agregar planeta</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form id="formCreate" onSubmit={this.createCountry}>
+                  <form id="formCreate" onSubmit={this.createPlanet}>
                     <div class="form-row">
 
                       <div class="col-12 form-group px-2">
-                        <label for="txtCountry" class="black-text">País</label>
-                        <input class="form-control material-design-black" value={this.state.country} onChange={this.handleCountryChange} type="text" placeholder="País" id="txtCountry" required />
+                        <label for="txtPlanet" class="black-text">Planeta</label>
+                        <input class="form-control material-design-black" value={this.state.planet} onChange={this.handlePlanetChange} type="text" placeholder="Planeta" id="txtPlanet" required />
                       </div>
 
                       <div class="col-12 form-group px-2">
-                        <label for="txtImage" class="black-text">Imágen de bandera</label>
-                        <input class="form-control material-design-black" value={this.state.image} onChange={this.handleImageChange} type="text" placeholder="Imágen de bandera"  id="txtImage" />
+                        <label for="txtImage" class="black-text">Imágen de planeta</label>
+                        <input class="form-control material-design-black" value={this.state.image} onChange={this.handleImageChange} type="text" placeholder="Imágen de planeta"  id="txtImage" />
                       </div>
 
                     </div>
@@ -225,7 +225,7 @@ class Countries extends React.Component{
                 </div>
 
                 <div class="px-3 mb-3">
-                  <button type="submit" form="formCreate" class="btn btn-success w-100 mb-2">Agregar País</button>
+                  <button type="submit" form="formCreate" class="btn btn-success w-100 mb-2">Agregar Planeta</button>
                   <button type="button" class="btn btn-danger w-100" data-dismiss="modal">Cancelar</button>
                 </div>
 
@@ -233,27 +233,27 @@ class Countries extends React.Component{
             </div>
           </div>
 
-          <div class="modal fade" id="modalEditCountry" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal fade" id="modalEditPlanet" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title text-black">Editar País</h5>
+                  <h5 class="modal-title text-black">Editar Planeta</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form id="formUpdate" onSubmit={this.updateCountry}>
+                  <form id="formUpdate" onSubmit={this.updatePlanet}>
                     <div class="form-row">
 
                       <div class="col-12 form-group px-2">
-                        <label for="txtEditCountry" class="black-text">País</label>
-                        <input class="form-control material-design-black" onChange={this.handleEditCountryChange} type="text" placeholder="País" id="txtEditCountry" required />
+                        <label for="txtEditPlanet" class="black-text">Planeta</label>
+                        <input class="form-control material-design-black" onChange={this.handleEditPlanetChange} type="text" placeholder="Planeta" id="txtEditPlanet" required />
                       </div>
 
                       <div class="col-12 form-group px-2">
-                        <label for="txtEditImage" class="black-text">Imágen de bandera</label>
-                        <input class="form-control material-design-black" onChange={this.handleEditImageChange} type="text" placeholder="Imágen de bandera"  id="txtEditImage" />
+                        <label for="txtEditImage" class="black-text">Imágen de planeta</label>
+                        <input class="form-control material-design-black" onChange={this.handleEditImageChange} type="text" placeholder="Imágen de planeta"  id="txtEditImage" />
                       </div>
 
                     </div>
@@ -261,7 +261,7 @@ class Countries extends React.Component{
                 </div>
 
                 <div class="px-3 mb-3">
-                  <button type="submit" id="btnUpdate" form="formUpdate" class="btn btn-success w-100 mb-2">Guardar País</button>
+                  <button type="submit" id="btnUpdate" form="formUpdate" class="btn btn-success w-100 mb-2">Guardar Planeta</button>
                   <button type="button" class="btn btn-danger w-100" data-dismiss="modal">Cancelar</button>
                 </div>
 
@@ -274,4 +274,4 @@ class Countries extends React.Component{
   }
 }
 
-export default Countries;
+export default Planets;
