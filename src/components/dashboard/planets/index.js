@@ -45,7 +45,7 @@ class Planets extends React.Component{
     this.handlePlanetChange = this.handlePlanetChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
     this.handleGoBackChange = this.handleGoBackChange.bind(this);
-    this.openModalUpdate = this.openModalUpdate.bind(this);
+
     this.handleEditPlanetChange = this.handleEditPlanetChange.bind(this);
     this.handleEditTypeChange = this.handleEditTypeChange.bind(this);
     this.handleEditGoBackChange = this.handleEditGoBackChange.bind(this);
@@ -204,15 +204,15 @@ class Planets extends React.Component{
 
   componentDidMount(){
     let currentComponent = this;
-    axios.get('https://andromeda-api-buscabar.herokuapp.com/planets/')
+    axios.get('https://andromeda-api-buscabar.herokuapp.com/planets')
       .then(function (response) {
         // handle success
         console.log(response);
         let planets = response.data.planet.map((planet) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/planets/" + planet.planet} class="d-flex align-items-center no-under-line-hover text-black">{planet.planet}</Link>
-              <button class="btn material-icons icon-md" onClick={currentComponent.getPlanet} data-planet={planet.planet}>more_vert</button>
+              <Link to={"/dashboard/planets/" + planet.name} class="d-flex align-items-center no-under-line-hover text-black">{planet.name}</Link>
+              <button class="btn material-icons icon-md" onClick={currentComponent.getPlanet} data-planet={planet.name}>more_vert</button>
             </div>
           )
         })

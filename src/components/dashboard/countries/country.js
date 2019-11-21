@@ -20,10 +20,10 @@ class Countries extends React.Component{
     super(props);
     this.state = {
       profile: window.localStorage,
-      countries: [],
+      states: [],
       country: '',
       image: '',
-      newCountry: '',
+      state: '',
       stateModal: false,
       stateModalCreate: false,
       stateModalDelete: false,
@@ -31,26 +31,24 @@ class Countries extends React.Component{
     };
 
 
-    this.createCountry = this.createCountry.bind(this);
-    this.updateCountry = this.updateCountry.bind(this);
-    this.getCountry = this.getCountry.bind(this);
-    this.deleteCountry = this.deleteCountry.bind(this);
+    this.createState = this.createState.bind(this);
+    this.updateState = this.updateState.bind(this);
+    this.getState = this.getState.bind(this);
+    this.deleteState = this.deleteState.bind(this);
 
     this.setStateModal = this.setStateModal.bind(this);
     this.setStateModalCreate = this.setStateModalCreate.bind(this);
     this.setStateModalDelete = this.setStateModalDelete.bind(this);
 
-    this.handleCountryChange = this.handleCountryChange.bind(this);
-    this.handleImageChange = this.handleImageChange.bind(this);
-    this.openModalUpdate = this.openModalUpdate.bind(this);
-    this.handleEditCountryChange = this.handleEditCountryChange.bind(this);
-    this.handleEditImageChange = this.handleEditImageChange.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this);
+
+    this.handleEditStateChange = this.handleEditStateChange.bind(this);
   }
 
   setStateModalDelete(event){
     var test = this.state.stateModal != false ? () => {
       this.setStateModal();
-      console.log(this.state);
+      // console.log(this.state);
       this.state.messageModal = $(event.target).attr('data-message');
     } : ()=>{};
     test();
@@ -66,29 +64,15 @@ class Countries extends React.Component{
     this.setState({stateModalCreate: !this.state.stateModalCreate});
   }
 
-  openModalUpdate(event){
-    console.log($(event.target).attr('data-country'));
-    this.getCountry($(event.target).attr('data-country'));
-    // $("#modalEditCountry").modal('show');
-  }
-
-  handleEditCountryChange(event){
+  handleEditStateChange(event){
     this.setState({newCountry: event.target.value});
   }
 
-  handleEditImageChange(event){
-    this.setState({image: event.target.value});
-  }
-
-  handleCountryChange(event){
+  handleStateChange(event){
     this.setState({country: event.target.value});
   }
 
-  handleImageChange(event){
-    this.setState({image: event.target.value});
-  }
-
-  deleteCountry(){
+  deleteState(){
     let currentComponent = this;
 
     var config = {
@@ -112,11 +96,11 @@ class Countries extends React.Component{
     });
   }
 
-  getCountry(event){
+  getState(event){
     let currentComponent = this;
-    let country = $(event.target).attr('data-country');
+    let state = $(event.target).attr('data-state');
 
-    axios.get(`https://andromeda-api-buscabar.herokuapp.com/countries/${$(event.target).attr('data-country')}`)
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/states/country/${currentComponent.state.country}`)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModal();
@@ -124,15 +108,15 @@ class Countries extends React.Component{
       $("#txtEditImage").val(response.data.country.image);
       currentComponent.setState({country: response.data.country.country, image: response.data.country.image});
       $("#btnUpdate").removeAttr('disabled', 'disabled');
-      $("#btnDelete").attr('data-country', country);
-      $("#btnDelete").attr('data-message', `país ${country}`);
+      $("#btnDelete").attr('data-state', state);
+      $("#btnDelete").attr('data-message', `stado ${state}`);
     })
     .catch(function (error) {
       console.log(error);
     });
   }
 
-  updateCountry(event){
+  updateState(event){
     let currentComponent = this;
     event.preventDefault();
     console.log(this.state);
@@ -163,7 +147,7 @@ class Countries extends React.Component{
 
   }
 
-  createCountry(event){
+  createState(event){
     let currentComponent = this;
     event.preventDefault();
     console.log(this.state);
@@ -192,26 +176,25 @@ class Countries extends React.Component{
     });
 
   }
-  
+
 
   componentDidMount(){
     const {match: {params}} = this.props;
     this.setState({country: params.topicId});
     let currentComponent = this;
-    axios.get('https://andromeda-api-buscabar.herokuapp.com/countries/')
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/states/country/${currentComponent.state.country}`)
       .then(function (response) {
         // handle success
         console.log(response);
-        let countries = response.data.country.map((country) => {
+        let states = response.data.state.map((state) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/countries/" + country.country} class="d-flex align-items-center no-under-line-hover text-black">{country.country}</Link>
-              <button class="btn material-icons icon-md" onClick={currentComponent.getCountry} data-country={country.country}>more_vert</button>
+              <Link to={"/dashboard/countries/" + state.state} class="d-flex align-items-center no-under-line-hover text-black">{state.state}</Link>
+              <button class="btn material-icons icon-md" onClick={currentComponent.getCountry} data-country={state.state}>more_vert</button>
             </div>
           )
         })
-        currentComponent.setState({countries: countries});
-        console.log(`State: ${currentComponent.state.countries}`);
+        currentComponent.setState({states: states});
       })
       .catch(function (error) {
         // handle error
