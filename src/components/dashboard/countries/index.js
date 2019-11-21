@@ -35,13 +35,22 @@ class Countries extends React.Component{
   }
 
   updateCountry(event){
-
-  };
+    let currentComponent = this;
+    event.preventDefault();
+    console.log(this.state);
+    var config = {
+      headers: {
+        'content-type': 'application/json',
+        'token': 'Brear',
+        'authorization': 'bearer ' + window.localStorage.getItem('token')
+      }
+    };
+  }
 
   createCountry(event){
     let currentComponent = this;
     event.preventDefault();
-    console.log(this.state.country);
+    console.log(this.state);
     // $("#modalAddCountry").modal('hide');
     var config = {
     headers: {
