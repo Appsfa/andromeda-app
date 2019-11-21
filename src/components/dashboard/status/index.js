@@ -21,6 +21,7 @@ class Status extends React.Component{
     this.state = {
       profile: window.localStorage,
       status: [],
+      statu: '',
       newStatus: '',
       stateModal: false,
       stateModalCreate: false,
@@ -63,12 +64,12 @@ class Status extends React.Component{
     this.setState({stateModalCreate: !this.state.stateModalCreate});
   }
 
-  handleStatusChange(event){
+  handleEditStatusChange(event){
     this.setState({newStatus: event.target.value});
   }
 
   handleStatusChange(event){
-    this.setState({status: event.target.value});
+    this.setState({statu: event.target.value});
   }
 
   deleteStatus(){
@@ -84,7 +85,7 @@ class Status extends React.Component{
 
     console.log(currentComponent.state);
 
-    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/status/${currentComponent.state.status}`, config)
+    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/status/${currentComponent.state.statu}`, config)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModalDelete();
@@ -98,13 +99,14 @@ class Status extends React.Component{
   getStatus(event){
     let currentComponent = this;
     let status = $(event.target).attr('data-status');
+    // currentComponent.setState({statu: status});
 
-    axios.get(`https://andromeda-api-buscabar.herokuapp.com/status/${$(event.target).attr('data-status')}`)
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/status/${status}`)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModal();
-      currentComponent.setState({status: response.data.status.status});
-      $("#txtEditStatusName").val(response.data.status.status);
+      currentComponent.setState({statu: status});
+      $("#txtEditStatus").val(response.data.status.status);
 
       $("#btnUpdate").removeAttr('disabled', 'disabled');
       $("#btnDelete").attr('data-status', status);
@@ -129,9 +131,9 @@ class Status extends React.Component{
       }
     };
 
-    axios.put(`https://andromeda-api-buscabar.herokuapp.com/status/${currentComponent.state.status}`, {
+    axios.put(`https://andromeda-api-buscabar.herokuapp.com/status/${currentComponent.state.statu}`, {
 
-        status: currentComponent.state.status,
+        statu: currentComponent.state.newStatus,
 
     }, config)
     .then(function (response) {
@@ -181,7 +183,7 @@ class Status extends React.Component{
     axios.get('https://andromeda-api-buscabar.herokuapp.com/status')
       .then(function (response) {
         // handle success
-        console.log(response);
+        // console.log(response);
         let status = response.data.status.map((status) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
@@ -191,7 +193,7 @@ class Status extends React.Component{
           )
         })
         currentComponent.setState({status: status});
-        console.log(`State: ${currentComponent.state.status}`);
+        // console.log(currentComponent.state.status);
       })
       .catch(function (error) {
         // handle error
@@ -280,8 +282,8 @@ class Status extends React.Component{
                   <div class="form-row">
 
                     <div class="col-12 form-group px-2">
-                      <label for="txtEditStatusChange" class="black-text">Estatus</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditStatusChange} type="text" placeholder="Estatus" id="txtEditStatusChange" required />
+                      <label for="txtEditStatus" class="black-text">Estatus</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditStatusChange} type="text" placeholder="Estatus" id="txtEditStatus" required />
                     </div>
 
                   </div>
