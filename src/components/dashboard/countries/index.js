@@ -17,13 +17,33 @@ class Countries extends React.Component{
       profile: window.localStorage,
       countries: [],
       country: '',
-      image: ''
+      image: '',
+      newCountry: ''
     };
 
     this.createCountry = this.createCountry.bind(this);
     this.updateCountry = this.updateCountry.bind(this);
+    this.getCountry = this.getCountry.bind(this);
+
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
+    this.openModalUpdate = this.openModalUpdate.bind(this);
+    this.handleEditCountryChange = this.handleEditCountryChange.bind(this);
+    this.handleEditImageChange = this.handleEditImageChange.bind(this);
+  }
+
+  openModalUpdate(event){
+    console.log($(event.target).attr('data-country'));
+    this.getCountry($(event.target).attr('data-country'));
+    $("#modalEditCountry").modal('show');
+  }
+
+  handleEditCountryChange(event){
+    this.setState({newCountry: event.target.value});
+  }
+
+  handleEditImageChange(event){
+    this.setState({image: event.target.value});
   }
 
   handleCountryChange(event){
@@ -34,6 +54,22 @@ class Countries extends React.Component{
     this.setState({image: event.target.value});
   }
 
+  getCountry(country){
+    let currentComponent = this;
+
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/countries/${country}`)
+    .then(function (response) {
+      console.log(response);
+      $("#txtEditCountry").val(response.data.country.country);
+      $("#txtEditImage").val(response.data.country.image);
+      currentComponent.setState({country: response.data.country.country, image: response.data.country.image});
+      $("#btnUpdate").removeAttr('disabled', 'disabled');
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
   updateCountry(event){
     let currentComponent = this;
     event.preventDefault();
@@ -41,10 +77,27 @@ class Countries extends React.Component{
     var config = {
       headers: {
         'content-type': 'application/json',
-        'token': 'Brear',
+        'token': 'Bearer',
         'authorization': 'bearer ' + window.localStorage.getItem('token')
       }
     };
+
+    axios.put(`https://andromeda-api-buscabar.herokuapp.com/countries/${currentComponent.state.country}`, {
+
+        country: currentComponent.state.newCountry,
+        image: currentComponent.state.image,
+
+    }, config)
+    .then(function (response) {
+      console.log(response);
+      currentComponent.componentDidMount();
+      $("#btnUpdate").attr('disabled', 'disabled');
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
   }
 
   createCountry(event){
@@ -55,7 +108,7 @@ class Countries extends React.Component{
     var config = {
     headers: {
       'content-type': 'application/json',
-      'token': 'Brear',
+      'token': 'Bearer',
       'authorization': 'bearer ' + window.localStorage.getItem('token')
     }
 };
@@ -84,9 +137,10 @@ class Countries extends React.Component{
         console.log(response);
         let countries = response.data.country.map((country) => {
           return(
-            <Link to={"/dashboard/countries/" + country.country} class="col-12 border-bottom border-secondary py-2 no-under-line-hover text-black" style={{borderWidth: "0.3px"}}>
-              {country.country}
-            </Link>
+            <div class="col-12 border-bottom border-secondary py-2 no-under-line-hover text-black d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
+              <Link to={"/dashboard/countries/" + country.country}>{country.country}</Link>
+              <button class="btn" onClick={currentComponent.openModalUpdate} data-country={country.country} data-toggle="modal" data-target="#modalEditCountry">Options</button>
+            </div>
           )
         })
         currentComponent.setState({countries: countries});
@@ -114,7 +168,7 @@ class Countries extends React.Component{
                 <SideNav/>
               </div>
 
-              <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-9 pt-4">
+              <div class="col-12 col-sm-12 col-md-10 col-lg-5 col-xl-7 pt-4">
                 <div class="row">
                   <div class="col-12 mb-3">
                     <h1><b>Paises</b></h1>
@@ -125,6 +179,10 @@ class Countries extends React.Component{
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div class="d-none d-lg-block col-12 col-sm-12 col-md-1 col-lg-3 col-xl-2 pt-4">
+
               </div>
 
             </div>
@@ -179,7 +237,7 @@ class Countries extends React.Component{
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title text-black">Agregar país</h5>
+                  <h5 class="modal-title text-black">Editar País</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -190,12 +248,12 @@ class Countries extends React.Component{
 
                       <div class="col-12 form-group px-2">
                         <label for="txtEditCountry" class="black-text">País</label>
-                        <input class="form-control material-design-black" value={this.state.country} onChange={this.handleCountryChange} type="text" placeholder="País" id="txtEditCountry" required />
+                        <input class="form-control material-design-black" onChange={this.handleEditCountryChange} type="text" placeholder="País" id="txtEditCountry" required />
                       </div>
 
                       <div class="col-12 form-group px-2">
                         <label for="txtEditImage" class="black-text">Imágen de bandera</label>
-                        <input class="form-control material-design-black" value={this.state.image} onChange={this.handleImageChange} type="text" placeholder="Imágen de bandera"  id="txtEditImage" />
+                        <input class="form-control material-design-black" onChange={this.handleEditImageChange} type="text" placeholder="Imágen de bandera"  id="txtEditImage" />
                       </div>
 
                     </div>
@@ -203,7 +261,7 @@ class Countries extends React.Component{
                 </div>
 
                 <div class="px-3 mb-3">
-                  <button type="submit" form="formCreate" class="btn btn-success w-100 mb-2">Agregar País</button>
+                  <button type="submit" id="btnUpdate" form="formUpdate" class="btn btn-success w-100 mb-2">Guardar País</button>
                   <button type="button" class="btn btn-danger w-100" data-dismiss="modal">Cancelar</button>
                 </div>
 
