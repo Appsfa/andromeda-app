@@ -12,6 +12,7 @@ import {
 
 import './App.css';
 import Start from './components/start';
+import States from './components/states';
 import Home from './components/index';
 import Login from './components/login';
 import Dashboard from './components/dashboard/index';
@@ -25,6 +26,7 @@ import Spaceships from './components/dashboard/spaceships/index';
 
 const App = () => (
   <BrowserRouter>
+    <Route path="/state" component={States} />
     <Route path="/home" component={Home} />
     <Route path="/start" component={Start} />
     <Route path="/login" component={Login} />
@@ -35,8 +37,6 @@ const App = () => (
     <Route exact path="/dashboard/countries/:topicId" component={Country} />
     <Route exact path="/dashboard/countries" component={Countries} />
     <Route exact path="/dashboard" component={Dashboard} />
-
-
   </BrowserRouter>
 );
 
