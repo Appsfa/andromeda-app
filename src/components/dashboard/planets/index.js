@@ -241,13 +241,13 @@ class Planets extends React.Component{
           <header>
             <Navigation/>
           </header>
-          <main class="container-fluid">
+          <main class="container-fluid mb-5">
             <div class="row">
               <div class="d-none d-lg-block col-12 col-sm-12 col-md-1 col-lg-4 col-xl-3 pt-4">
                 <SideNav/>
               </div>
 
-              <div class="col-12 col-sm-12 col-md-10 col-lg-5 col-xl-7 pt-4">
+              <div class="col-12 col-sm-12 col-md-10 col-lg-5 col-xl-7 pt-4 mb-5">
                 <div class="row">
                   <div class="col-12 mb-3">
                     <h1><b>Planetas</b></h1>
