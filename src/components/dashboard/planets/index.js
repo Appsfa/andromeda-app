@@ -16,20 +16,24 @@ class Planets extends React.Component{
     this.state = {
       profile: window.localStorage,
       planets: [],
-      planet: '',
-      image: '',
-      newPlanet: ''
+      name: '',
+      type: '',
+      goBack: ''
     };
 
     this.createPlanet = this.createPlanet.bind(this);
     this.updatePlanet = this.updatePlanet.bind(this);
     this.getPlanet = this.getPlanet.bind(this);
 
-    this.handlePlanetChange = this.handlePlanetChange.bind(this);
-    this.handleImageChange = this.handleImageChange.bind(this);
+    this.handleNameChange = this.handlePlanetChange.bind(this);
+    this.handleTypeChange = this.handleImageChange.bind(this);
+    this.handleGoBackChange = this.handleImageChange.bind(this);
+
     this.openModalUpdate = this.openModalUpdate.bind(this);
-    this.handleEditPlanetChange = this.handleEditPlanetChange.bind(this);
-    this.handleEditImageChange = this.handleEditImageChange.bind(this);
+
+    this.handleEditNameChange = this.handlePlanetChange.bind(this);
+    this.handleEditTypeChange = this.handleImageChange.bind(this);
+    this.handleEditGoBackChange = this.handleImageChange.bind(this);
   }
 
   openModalUpdate(event){
@@ -54,6 +58,12 @@ class Planets extends React.Component{
     this.setState({image: event.target.value});
   }
 
+
+  /**
+ * -----------------------------------------------------------------------
+ *                             OBTENER PLANETA
+ * -----------------------------------------------------------------------
+ */
   getPlanet(planet){
     let currentComponent = this;
 
@@ -70,6 +80,11 @@ class Planets extends React.Component{
     });
   }
 
+/**
+ * -----------------------------------------------------------------------
+ *                            UPDATE DE PLANETA
+ * -----------------------------------------------------------------------
+ */
   updatePlanet(event){
     let currentComponent = this;
     event.preventDefault();
