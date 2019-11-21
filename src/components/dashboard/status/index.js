@@ -29,10 +29,10 @@ class Status extends React.Component{
     };
 
 
-    this.createClass = this.createClass.bind(this);
-    this.updateClass = this.updateClass.bind(this);
-    this.getClass = this.getClass.bind(this);
-    this.deleteClass = this.deleteClass.bind(this);
+    this.createStatus = this.createStatus.bind(this);
+    this.updateStatus = this.updateStatus.bind(this);
+    this.getStatus = this.getStatus.bind(this);
+    this.deleteStatus = this.deleteStatus.bind(this);
 
     this.setStateModal = this.setStateModal.bind(this);
     this.setStateModalCreate = this.setStateModalCreate.bind(this);
