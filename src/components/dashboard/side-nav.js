@@ -29,6 +29,11 @@ class MyComp extends React.Component{
           <Link to="/dashboard/classes" class="btn col-12 py-2 d-flex align-items-center px-4">
             <i class="material-icons icon-md mr-2">room_service</i>Clases
           </Link>
+
+          <Link to="/dashboard/classes" class="btn col-12 py-2 d-flex align-items-center px-4">
+            <i class="material-icons icon-md mr-2">room_service</i>Estatus
+          </Link>
+
         </div>
       )
     }

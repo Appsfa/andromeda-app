@@ -19,6 +19,8 @@ import Countries from './components/dashboard/countries/index';
 import Country from './components/dashboard/countries/country';
 import Planets from './components/dashboard/planets/index';
 import Classes from './components/dashboard/classes/index';
+import Status from './components/dashboard/status/index';
+
 
 
 const App = () => (
@@ -26,6 +28,7 @@ const App = () => (
     <Route path="/home" component={Home} />
     <Route path="/start" component={Start} />
     <Route path="/login" component={Login} />
+    <Route exact path="/dashboard/classes" component={Status} />
     <Route exact path="/dashboard/classes" component={Classes} />
     <Route exact path="/dashboard/planets" component={Planets} />
     <Route exact path="/dashboard/countries/:topicId" component={Country} />
