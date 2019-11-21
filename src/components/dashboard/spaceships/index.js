@@ -25,8 +25,6 @@ class Spaceships extends React.Component{
       type: '',
       totalSeats: '',
       newSpaceship: '',
-      newType: '',
-      newTotalSeats: '',
       stateModal: false,
       stateModalCreate: false,
       stateModalDelete: false,
@@ -216,8 +214,8 @@ class Spaceships extends React.Component{
         let spaceships = response.data.spaceship.map((spaceship) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/spaceships/" + spaceship.spaceship} class="d-flex align-items-center no-under-line-hover text-black">{spaceship.spaceship}</Link>
-              <button class="btn material-icons icon-md" onClick={currentComponent.getSpaceship} data-spaceship={spaceship.spaceship}>more_vert</button>
+              <Link to={"/dashboard/spaceships/" + spaceship._id} class="d-flex align-items-center no-under-line-hover text-black">{spaceship._id}</Link>
+              <button class="btn material-icons icon-md" onClick={currentComponent.getSpaceship} data-spaceship={spaceship._id}>more_vert</button>
             </div>
           )
         })
