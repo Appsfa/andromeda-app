@@ -84,8 +84,9 @@ class Planets extends React.Component{
 
     axios.put(`https://andromeda-api-buscabar.herokuapp.com/planets/${currentComponent.state.planet}`, {
 
-        planet: currentComponent.state.newPlanet,
-        image: currentComponent.state.image,
+        name: currentComponent.state.newPlanet,
+        type: currentComponent.state.image,
+        goBack: currentComponent.state.goBack
 
     }, config)
     .then(function (response) {
@@ -115,8 +116,9 @@ class Planets extends React.Component{
 
     axios.post('https://andromeda-api-buscabar.herokuapp.com/planets', {
 
-        planet: currentComponent.state.planet,
-        image: currentComponent.state.image,
+      name: currentComponent.state.newPlanet,
+      type: currentComponent.state.image,
+      goBack: currentComponent.state.goBack
 
     }, config)
     .then(function (response) {
@@ -215,11 +217,6 @@ class Planets extends React.Component{
                         <input class="form-control material-design-black" value={this.state.planet} onChange={this.handlePlanetChange} type="text" placeholder="Planeta" id="txtPlanet" required />
                       </div>
 
-                      <div class="col-12 form-group px-2">
-                        <label for="txtImage" class="black-text">Imágen de planeta</label>
-                        <input class="form-control material-design-black" value={this.state.image} onChange={this.handleImageChange} type="text" placeholder="Imágen de planeta"  id="txtImage" />
-                      </div>
-
                     </div>
                   </form>
                 </div>
@@ -249,11 +246,6 @@ class Planets extends React.Component{
                       <div class="col-12 form-group px-2">
                         <label for="txtEditPlanet" class="black-text">Planeta</label>
                         <input class="form-control material-design-black" onChange={this.handleEditPlanetChange} type="text" placeholder="Planeta" id="txtEditPlanet" required />
-                      </div>
-
-                      <div class="col-12 form-group px-2">
-                        <label for="txtEditImage" class="black-text">Imágen de planeta</label>
-                        <input class="form-control material-design-black" onChange={this.handleEditImageChange} type="text" placeholder="Imágen de planeta"  id="txtEditImage" />
                       </div>
 
                     </div>
