@@ -18,12 +18,15 @@ import Dashboard from './components/dashboard/index';
 import Countries from './components/dashboard/countries/index';
 import Country from './components/dashboard/countries/country';
 import Planets from './components/dashboard/planets/index';
+import Classes from './components/dashboard/classes/index';
+
 
 const App = () => (
   <BrowserRouter>
     <Route path="/home" component={Home} />
     <Route path="/start" component={Start} />
     <Route path="/login" component={Login} />
+    <Route exact path="/dashboard/classes" component={Classes} />
     <Route exact path="/dashboard/planets" component={Planets} />
     <Route exact path="/dashboard/countries/:topicId" component={Country} />
     <Route exact path="/dashboard/countries" component={Countries} />
