@@ -34,22 +34,22 @@ class Spaceships extends React.Component{
     };
 
 
-    this.createSpaceship = this.createPlanet.bind(this);
-    this.updateSpaceship = this.updatePlanet.bind(this);
-    this.getSpaceship = this.getPlanet.bind(this);
-    this.deleteSpaceship = this.deletePlanet.bind(this);
+    this.createSpaceship = this.createSpaceship.bind(this);
+    this.updateSpaceship = this.updateSpaceship.bind(this);
+    this.getSpaceship = this.getSpaceship.bind(this);
+    this.deleteSpaceship = this.deleteSpaceship.bind(this);
 
     this.setStateModal = this.setStateModal.bind(this);
     this.setStateModalCreate = this.setStateModalCreate.bind(this);
     this.setStateModalDelete = this.setStateModalDelete.bind(this);
 
-    this.handleSpaceshipChange = this.handlePlanetChange.bind(this);
+    this.handleSpaceshipChange = this.handleSpaceshipChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
-    this.handleTotalSeatsChange = this.handleGoBackChange.bind(this);
+    this.handleTotalSeatsChange = this.handleTotalSeatsChange.bind(this);
 
-    this.handleEditPlanetChange = this.handleEditPlanetChange.bind(this);
+    this.handleEditSpaceshipChange = this.handleEditSpaceshipChange.bind(this);
     this.handleEditTypeChange = this.handleEditTypeChange.bind(this);
-    this.handleEditGoBackChange = this.handleEditGoBackChange.bind(this);
+    this.handleEditTotalSeatsChange = this.handleEditTotalSeatsChange.bind(this);
 
   }
 
@@ -72,30 +72,30 @@ class Spaceships extends React.Component{
     this.setState({stateModalCreate: !this.state.stateModalCreate});
   }
 
-  handleEditPlanetChange(event){
-    this.setState({newPlanet: event.target.value});
+  handleEditSpaceshipChange(event){
+    this.setState({newSpaceship: event.target.value});
   }
 
   handleEditTypeChange(event){
     this.setState({type: event.target.value});
   }
 
-  handleEditGoBackChange(event){
-    this.setState({goBack: event.target.value});
+  handleEditTotalSeatsChange(event){
+    this.setState({totalSeats: event.target.value});
   }
 
-  handlePlanetChange(event){
-    this.setState({name: event.target.value});
+  handleSpaceshipChange(event){
+    this.setState({spaceship: event.target.value});
   }
 
   handleTypeChange(event){
     this.setState({type: event.target.value});
   }
-  handleGoBackChange(event){
-    this.setState({goBack: event.target.value});
+  handleTotalSeatsChange(event){
+    this.setState({totalSeats: event.target.value});
   }
 
-  deletePlanet(){
+  deleteSpaceship(){
     let currentComponent = this;
 
     var config = {
@@ -108,7 +108,7 @@ class Spaceships extends React.Component{
 
     console.log(currentComponent.state);
 
-    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/planets/${currentComponent.state.planet}`, config)
+    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/spaceships/${currentComponent.state.spaceship}`, config)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModalDelete();
@@ -119,22 +119,22 @@ class Spaceships extends React.Component{
     });
   }
 
-  getPlanet(event){
+  getSpaceship(event){
     let currentComponent = this;
-    let planet = $(event.target).attr('data-planet');
+    let spaceship = $(event.target).attr('data-spaceship');
 
-    axios.get(`https://andromeda-api-buscabar.herokuapp.com/planets/${$(event.target).attr('data-planet')}`)
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/spaceships/${$(event.target).attr('data-spaceship')}`)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModal();
-      currentComponent.setState({newPlanet: response.data.planet.name, type: response.data.planet.type, goBack: response.data.planet.goBack, planet: planet});
-      $("#txtEditPlanet").val(response.data.planet.name);
-      $("#txtEditType").val(response.data.planet.type);
-      $("#txtEditGoBack").val(response.data.planet.goBack);
+      currentComponent.setState({newSpaceship: response.data.spaceship.spaceship, type: response.data.spaceship.type, totalSeats: response.data.spaceship.totalSeats, spaceship: spaceship});
+      $("#txtEditSpaceship").val(response.data.spaceship.spaceship);
+      $("#txtEditType").val(response.data.spaceship.type);
+      $("#txtEditTotalSeats").val(response.data.spaceship.totalSeats);
 
       $("#btnUpdate").removeAttr('disabled', 'disabled');
-      $("#btnDelete").attr('data-planet', planet);
-      $("#btnDelete").attr('data-message', `planeta ${planet}`);
+      $("#btnDelete").attr('data-spaceship', spaceship);
+      $("#btnDelete").attr('data-message', `spaceship ${spaceship}`);
 
       console.log(currentComponent.state);
     })
@@ -143,7 +143,7 @@ class Spaceships extends React.Component{
     });
   }
 
-  updatePlanet(event){
+  updateSpaceship(event){
     let currentComponent = this;
     event.preventDefault();
     console.log(this.state);
@@ -155,11 +155,11 @@ class Spaceships extends React.Component{
       }
     };
 
-    axios.put(`https://andromeda-api-buscabar.herokuapp.com/planets/${currentComponent.state.planet}`, {
+    axios.put(`https://andromeda-api-buscabar.herokuapp.com/spaceships/${currentComponent.state.spaceship}`, {
 
-        name: currentComponent.state.newPlanet,
+        spaceship: currentComponent.state.newSpaceship,
         type: currentComponent.state.type,
-        goBack: currentComponent.state.goBack,
+        totalSeats: currentComponent.state.totalSeats,
 
 
     }, config)
@@ -176,11 +176,11 @@ class Spaceships extends React.Component{
 
   }
 
-  createPlanet(event){
+  createSpaceship(event){
     let currentComponent = this;
     event.preventDefault();
     // console.log(this.state);
-    // $("#modalAddPlanet").modal('hide');
+    // $("#modalAddSpaceship").modal('hide');
     var config = {
     headers: {
       'content-type': 'application/json',
@@ -189,11 +189,11 @@ class Spaceships extends React.Component{
     }
 };
 
-    axios.post('https://andromeda-api-buscabar.herokuapp.com/planets', {
+    axios.post('https://andromeda-api-buscabar.herokuapp.com/spaceships', {
 
-      name: currentComponent.state.name,
+      spaceship: currentComponent.state.spaceship,
       type: currentComponent.state.type,
-      goBack: currentComponent.state.goBack,
+      totalSeats: currentComponent.state.totalSeats,
 
     }, config)
     .then(function (response) {
@@ -209,20 +209,20 @@ class Spaceships extends React.Component{
 
   componentDidMount(){
     let currentComponent = this;
-    axios.get('https://andromeda-api-buscabar.herokuapp.com/planets')
+    axios.get('https://andromeda-api-buscabar.herokuapp.com/spaceships')
       .then(function (response) {
         // handle success
         console.log(response);
-        let planets = response.data.planet.map((planet) => {
+        let spaceships = response.data.spaceship.map((spaceship) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/planets/" + planet.name} class="d-flex align-items-center no-under-line-hover text-black">{planet.name}</Link>
-              <button class="btn material-icons icon-md" onClick={currentComponent.getPlanet} data-planet={planet.name}>more_vert</button>
+              <Link to={"/dashboard/spaceships/" + spaceship.spaceship} class="d-flex align-items-center no-under-line-hover text-black">{spaceship.spaceship}</Link>
+              <button class="btn material-icons icon-md" onClick={currentComponent.getSpaceship} data-spaceship={spaceship.spaceship}>more_vert</button>
             </div>
           )
         })
-        currentComponent.setState({planets: planets});
-        console.log(`State: ${currentComponent.state.planets}`);
+        currentComponent.setState({spaceships: spaceships});
+        console.log(`State: ${currentComponent.state.spaceships}`);
       })
       .catch(function (error) {
         // handle error
@@ -249,11 +249,11 @@ class Spaceships extends React.Component{
               <div class="col-12 col-sm-12 col-md-10 col-lg-5 col-xl-7 pt-4 mb-5">
                 <div class="row">
                   <div class="col-12 mb-3">
-                    <h1><b>Planetas</b></h1>
+                    <h1><b>Spaceships</b></h1>
                   </div>
                   <div class="col-12">
                     <div class="row">
-                      {this.state.planets}
+                      {this.state.spaceships}
                     </div>
                   </div>
                 </div>
@@ -268,7 +268,7 @@ class Spaceships extends React.Component{
           <div class="position-fixed text-right p-4" style={{bottom: "0px", right: "0px"}}>
             <ul id="menuAdd" class="menu p-0 text-decoration-none mr-2 mb-0 pb-3 d-none" style={{listStyleType: "none"}}>
               <li class="mt-3">
-                Agregar Planet <button data-menu="#menuAdd" onClick={this.setStateModalCreate} class="btn-close-menu-bottom btn btn-blue rounded-circle shadow-lg btn-sm ml-2"><i class="material-icons mt-1">account_balance</i></button>
+                Agregar Nave Espacial <button data-menu="#menuAdd" onClick={this.setStateModalCreate} class="btn-close-menu-bottom btn btn-blue rounded-circle shadow-lg btn-sm ml-2"><i class="material-icons mt-1">account_balance</i></button>
               </li>
             </ul>
             <button type="button" id="btnOpenOptions" data-menu="#menuAdd" class="open-menu-bottom btn btn-success rounded-circle shadow-lg btn-lg"><i class="material-icons mt-2">add</i></button>
@@ -283,31 +283,31 @@ class Spaceships extends React.Component{
 
           <div>
             <Modal isOpen={this.state.stateModalCreate} toggle={this.setStateModalCreate}>
-              <ModalHeader toggle={this.setStateModalCreate}>Agregar Planeta</ModalHeader>
+              <ModalHeader toggle={this.setStateModalCreate}>Agregar Nave Espacial</ModalHeader>
               <ModalBody>
-                <form id="formCreate" onSubmit={this.createPlanet}>
+                <form id="formCreate" onSubmit={this.createSpaceship}>
                   <div class="form-row">
 
                     <div class="col-12 form-group px-2">
-                      <label for="txtPlanet" class="black-text">Planeta</label>
-                      <input class="form-control material-design-black" onChange={this.handlePlanetChange} type="text" placeholder="Planeta" id="txtPlanet" required />
+                      <label for="txtSpaceship" class="black-text">Nave Espacial</label>
+                      <input class="form-control material-design-black" onChange={this.handleSpaceshipChange} type="text" placeholder="Nave Espacial" id="txtSpaceship" required />
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtType" class="black-text">Tipo de planet</label>
-                      <input class="form-control material-design-black" onChange={this.handleTypeChange} type="text" placeholder="Tipo de planeta" id="txtType" />
+                      <label for="txtType" class="black-text">Tipo de Nave Espacial</label>
+                      <input class="form-control material-design-black" onChange={this.handleTypeChange} type="text" placeholder="Tipo de Nave Espacial" id="txtType" />
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtGoBack" class="black-text">¿Regresarás?</label>
-                      <input class="form-control material-design-black" onChange={this.handleGoBackChange} type="text" placeholder="¿Regresarás?" id="txtGoBack" />
+                      <label for="txtTotalSeats" class="black-text">Asientos Totales</label>
+                      <input class="form-control material-design-black" onChange={this.handleTotalSeatsChange} type="text" placeholder="Asientos Totales" id="txtTotalSeats" />
                     </div>
 
                   </div>
                 </form>
               </ModalBody>
               <div class="px-3 mb-3">
-                <button type="submit" form="formCreate" class="btn btn-success w-100 mb-2">Agregar Planeta</button>
+                <button type="submit" form="formCreate" class="btn btn-success w-100 mb-2">Agregar Nave Espacial</button>
                 <button type="button" class="btn btn-danger w-100" onClick={this.setStateModalCreate}>Cancelar</button>
               </div>
             </Modal>
@@ -315,31 +315,31 @@ class Spaceships extends React.Component{
 
           <div>
             <Modal isOpen={this.state.stateModal} toggle={this.setStateModal}>
-              <ModalHeader toggle={this.setStateModal} close={<button class="btn material-icons icon-md" id="btnDelete" onClick={this.setStateModalDelete}>delete</button>} className="d-flex align-items-center">Editar Planeta</ModalHeader>
+              <ModalHeader toggle={this.setStateModal} close={<button class="btn material-icons icon-md" id="btnDelete" onClick={this.setStateModalDelete}>delete</button>} className="d-flex align-items-center">Editar Nave Espacial</ModalHeader>
               <ModalBody>
-                <form id="formUpdate" onSubmit={this.updatePlanet}>
+                <form id="formUpdate" onSubmit={this.updateSpaceship}>
                   <div class="form-row">
 
                     <div class="col-12 form-group px-2">
-                      <label for="txtEditPlanet" class="black-text">Planeta</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditPlanetChange} type="text" placeholder="Planeta" id="txtEditPlanet" required />
+                      <label for="txtEditSpaceship" class="black-text">Nave Espacial</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditSpaceshipChange} type="text" placeholder="Nave Espacial" id="txtEditSpaceship" required />
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtEditType" class="black-text">Tipo de planeta</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditTypeChange} type="text" placeholder="Tipo de planeta"  id="txtEditType" required />
+                      <label for="txtEditType" class="black-text">Tipo de Nave Espacial</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditTypeChange} type="text" placeholder="Tipo de nave espacial"  id="txtEditType" required />
                     </div>
 
                     <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtEditGoBack" class="black-text">Imágen de bandera</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditGoBackChange} type="text" placeholder="¿Regresarás?"  id="txtEditGoBack" required />
+                      <label for="txtEditTotalSeats" class="black-text">Asientos Totales</label>
+                      <input class="form-control material-design-black" onChange={this.handleEditTotalSeatsChange} type="text" placeholder="Asientos totales"  id="txtEditTotalSeats" required />
                     </div>
 
                   </div>
                 </form>
               </ModalBody>
               <div class="px-3 mb-3">
-                <button type="submit" id="btnUpdate" form="formUpdate" class="btn btn-success w-100 mb-2">Guardar Planeta</button>
+                <button type="submit" id="btnUpdate" form="formUpdate" class="btn btn-success w-100 mb-2">Guardar Nave Espacial</button>
                 <button type="button" class="btn btn-danger w-100" onClick={this.setStateModal}>Cancelar</button>
               </div>
             </Modal>
@@ -365,7 +365,7 @@ class Spaceships extends React.Component{
                           <button onClick={this.setStateModalDelete} class="btn rounded-0 col-6 p-0 border-top border-right text-center text-danger cursor-pointer py-2" data-dismiss="modal" id="btn-cancel-modal-delete">
                             Cancelar
                           </button>
-                          <button onClick={this.deletePlanet} class="btn rounded-0 col-6 p-0 border-top text-center text-primary cursor-pointer py-2" id="btnAcceptDelete" data-planet={this.state.planet}>
+                          <button onClick={this.deleteSpaceship} class="btn rounded-0 col-6 p-0 border-top text-center text-primary cursor-pointer py-2" id="btnAcceptDelete" data-spaceship={this.state.spaceship}>
                             <b>Aceptar</b>
                           </button>
                         </div>
@@ -382,4 +382,4 @@ class Spaceships extends React.Component{
   }
 }
 
-export default Planets;
+export default Spaceships;
