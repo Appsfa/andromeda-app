@@ -200,7 +200,7 @@ class Countries extends React.Component{
         states = response.data.state.map(state => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/countries/" + state.state} class="d-flex align-items-center no-under-line-hover text-black">{state.state}</Link>
+              <Link to={"/dashboard/states/" + state.state} class="d-flex align-items-center no-under-line-hover text-black">{state.state}</Link>
               <button class="btn material-icons icon-md" onClick={currentComponent.getCountry} data-country={state.state}>more_vert</button>
             </div>
           )
