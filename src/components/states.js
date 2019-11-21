@@ -33,7 +33,6 @@ class MyCompStates extends React.Component{
           )
         })
         currentComponent.setState({countries: countries});
-        console.log(`State: ${currentComponent.state.countries}`);
       })
       .catch(function (error) {
         // handle error

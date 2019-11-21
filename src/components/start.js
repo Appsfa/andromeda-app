@@ -27,7 +27,7 @@ class MyComp extends React.Component{
           return(
             <div class="col-6 col-md-4 col-lg-3">
               <div class="row p-3">
-                <Link to="states" class="col-12 d-flex align-items-center bg-center" style={{backgroundImage: `url(${country.image})`, height: "150px"}}>
+                <Link to="/states" class="col-12 d-flex align-items-center bg-center" style={{backgroundImage: `url(${country.image})`, height: "150px"}}>
                   <h3 class="mx-auto text-white"><b>{country.country}</b></h3>
                 </Link>
               </div>

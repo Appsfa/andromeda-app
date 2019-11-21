@@ -205,6 +205,9 @@ class Countries extends React.Component{
             </div>
           )
         })
+
+        currentComponent.setState({states: states});
+
       })
       .catch(function (error) {
         // handle error
