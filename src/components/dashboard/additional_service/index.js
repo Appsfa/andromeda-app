@@ -133,7 +133,7 @@ class additional_service extends React.Component{
 
     axios.put(`https://andromeda-api-buscabar.herokuapp.com/additional_service/${currentComponent.state.nameService}`, {
 
-        statu: currentComponent.state.newAdditional_Service,
+        nameService: currentComponent.state.newAdditional_Service,
 
     }, config)
     .then(function (response) {
