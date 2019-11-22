@@ -21,10 +21,9 @@ class Spaceships extends React.Component{
     this.state = {
       profile: window.localStorage,
       spaceships: [],
-      spaceship: '',
+      idspaceship: '',
       type: '',
       totalSeats: '',
-      newSpaceship: '',
       stateModal: false,
       stateModalCreate: false,
       stateModalDelete: false,
@@ -41,11 +40,9 @@ class Spaceships extends React.Component{
     this.setStateModalCreate = this.setStateModalCreate.bind(this);
     this.setStateModalDelete = this.setStateModalDelete.bind(this);
 
-    this.handleSpaceshipChange = this.handleSpaceshipChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
     this.handleTotalSeatsChange = this.handleTotalSeatsChange.bind(this);
 
-    this.handleEditSpaceshipChange = this.handleEditSpaceshipChange.bind(this);
     this.handleEditTypeChange = this.handleEditTypeChange.bind(this);
     this.handleEditTotalSeatsChange = this.handleEditTotalSeatsChange.bind(this);
 
@@ -70,20 +67,12 @@ class Spaceships extends React.Component{
     this.setState({stateModalCreate: !this.state.stateModalCreate});
   }
 
-  handleEditSpaceshipChange(event){
-    this.setState({newSpaceship: event.target.value});
-  }
-
   handleEditTypeChange(event){
     this.setState({type: event.target.value});
   }
 
   handleEditTotalSeatsChange(event){
     this.setState({totalSeats: event.target.value});
-  }
-
-  handleSpaceshipChange(event){
-    this.setState({spaceship: event.target.value});
   }
 
   handleTypeChange(event){
@@ -106,7 +95,7 @@ class Spaceships extends React.Component{
 
     console.log(currentComponent.state);
 
-    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/spaceships/${currentComponent.state.spaceship}`, config)
+    axios.delete(`https://andromeda-api-buscabar.herokuapp.com/spaceships/${currentComponent.state.idspaceship}`, config)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModalDelete();
@@ -120,13 +109,13 @@ class Spaceships extends React.Component{
   getSpaceship(event){
     let currentComponent = this;
     let spaceship = $(event.target).attr('data-spaceship');
+    currentComponent.setState({idspaceship: spaceship});
 
     axios.get(`https://andromeda-api-buscabar.herokuapp.com/spaceships/${$(event.target).attr('data-spaceship')}`)
     .then(function (response) {
       console.log(response);
       currentComponent.setStateModal();
-      currentComponent.setState({newSpaceship: response.data.spaceship.spaceship, type: response.data.spaceship.type, totalSeats: response.data.spaceship.totalSeats, spaceship: spaceship});
-      $("#txtEditSpaceship").val(response.data.spaceship.spaceship);
+      currentComponent.setState({type: response.data.spaceship.type, totalSeats: response.data.spaceship.totalSeats});
       $("#txtEditType").val(response.data.spaceship.type);
       $("#txtEditTotalSeats").val(response.data.spaceship.totalSeats);
 
@@ -153,9 +142,8 @@ class Spaceships extends React.Component{
       }
     };
 
-    axios.put(`https://andromeda-api-buscabar.herokuapp.com/spaceships/${currentComponent.state.spaceship}`, {
+    axios.put(`https://andromeda-api-buscabar.herokuapp.com/spaceships/${currentComponent.state.idspaceship}`, {
 
-        spaceship: currentComponent.state.newSpaceship,
         type: currentComponent.state.type,
         totalSeats: currentComponent.state.totalSeats,
 
@@ -189,7 +177,6 @@ class Spaceships extends React.Component{
 
     axios.post('https://andromeda-api-buscabar.herokuapp.com/spaceships', {
 
-      spaceship: currentComponent.state.spaceship,
       type: currentComponent.state.type,
       totalSeats: currentComponent.state.totalSeats,
 
@@ -214,7 +201,7 @@ class Spaceships extends React.Component{
         let spaceships = response.data.spaceship.map((spaceship) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/spaceships/" + spaceship._id} class="d-flex align-items-center no-under-line-hover text-black">{spaceship._id}</Link>
+              <Link to={"/dashboard/spaceships/" + spaceship._id} class="d-flex align-items-center no-under-line-hover text-black">{spaceship._id} {spaceship.type}</Link>
               <button class="btn material-icons icon-md" onClick={currentComponent.getSpaceship} data-spaceship={spaceship._id}>more_vert</button>
             </div>
           )
@@ -286,11 +273,6 @@ class Spaceships extends React.Component{
                 <form id="formCreate" onSubmit={this.createSpaceship}>
                   <div class="form-row">
 
-                    <div class="col-12 form-group px-2">
-                      <label for="txtSpaceship" class="black-text">Nave Espacial</label>
-                      <input class="form-control material-design-black" onChange={this.handleSpaceshipChange} type="text" placeholder="Nave Espacial" id="txtSpaceship" required />
-                    </div>
-
                     <div class="col-12 form-group px-2 mb-4">
                       <label for="txtType" class="black-text">Tipo de Nave Espacial</label>
                       <input class="form-control material-design-black" onChange={this.handleTypeChange} type="text" placeholder="Tipo de Nave Espacial" id="txtType" />
@@ -317,11 +299,6 @@ class Spaceships extends React.Component{
               <ModalBody>
                 <form id="formUpdate" onSubmit={this.updateSpaceship}>
                   <div class="form-row">
-
-                    <div class="col-12 form-group px-2">
-                      <label for="txtEditSpaceship" class="black-text">Nave Espacial</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditSpaceshipChange} type="text" placeholder="Nave Espacial" id="txtEditSpaceship" required />
-                    </div>
 
                     <div class="col-12 form-group px-2 mb-4">
                       <label for="txtEditType" class="black-text">Tipo de Nave Espacial</label>
