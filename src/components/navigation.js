@@ -44,7 +44,7 @@ class Navigation extends React.Component{
                     <Link class="nav-link text-white" to="/dashboard"><big>Dashboard</big> <span class="sr-only">(current)</span></Link>
                   </li>
                   <li class="nav-item">
-                    <Link class="nav-link text-white" to="/login"><big>Mi Cuenta</big> <span class="sr-only">(current)</span></Link>
+                    <Link to="/tickets" class="nav-link text-white"><big>Mis Tickets</big> <span class="sr-only">(current)</span></Link>
                   </li>
                   <li class="nav-item">
                     <Link class="nav-link text-white" onClick={this.handleLogOut}><big>Cerrar Sesión </big><span class="sr-only">(current)</span></Link>
@@ -75,7 +75,7 @@ class Navigation extends React.Component{
                     <Link class="nav-link text-white" to="/home"><big>Inicio</big> <span class="sr-only">(current)</span></Link>
                   </li>
                   <li class="nav-item">
-                    <Link class="nav-link text-white" to="/login"><big>Mi Cuenta</big> <span class="sr-only">(current)</span></Link>
+                    <Link to="/tickets" class="nav-link text-white"><big>Mis Tickets</big> <span class="sr-only">(current)</span></Link>
                   </li>
                   <li class="nav-item">
                     <Link class="nav-link text-white" onClick={this.handleLogOut}><big>Cerrar Sesión </big><span class="sr-only">(current)</span></Link>

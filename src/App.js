@@ -17,6 +17,9 @@ import Stations from './components/stations';
 import Destination from './components/destination';
 import Home from './components/index';
 import Login from './components/login';
+import Flights from './components/flights';
+import Clase from './components/classes';
+import Tickets from './components/tickets';
 
 import Dashboard from './components/dashboard/index';
 import Countries from './components/dashboard/countries/index';
@@ -34,12 +37,16 @@ import Dashboard_Flights from './components/dashboard/flights/index';
 
 const App = () => (
   <BrowserRouter>
+    <Route exact path="/:idFlight/class" component={Clase} />
     <Route exact path="/states/:idCountry" component={States} />
     <Route exact path="/stations/:idState" component={Stations} />
     <Route exact path="/:idStation/destinations" component={Destination} />
+    <Route exact path="/flights/:idStation/:idPlanet" component={Flights} />
+
     <Route path="/home" component={Home} />
     <Route path="/start" component={Start} />
     <Route path="/login" component={Login} />
+    <Route path="/tickets" component={Tickets} />
 
     <Route exact path="/dashboard/flights" component={Dashboard_Flights} />
     <Route exact path="/dashboard/benefits" component={Benefits} />

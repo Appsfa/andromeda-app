@@ -78,11 +78,6 @@ class MyCompStates extends React.Component{
                       <h2><b>Estaciones</b></h2>
                     </div>
                     {this.state.stations}
-                    <div class="mx-auto">
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <DatePicker value={this.state.date} onChange={this.setDate} variant="static" orientation="landscape" />
-                    </MuiPickersUtilsProvider>
-                    </div>
                   </div>
                 </div>
 
