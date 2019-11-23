@@ -2,6 +2,14 @@ import React from 'react';
 import Navigation from './navigation';
 import {Link} from 'react-router-dom';
 
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+
 const axios = require('axios');
 
 // import './App.css';
@@ -12,13 +20,21 @@ class MyCompStates extends React.Component{
     super(props);
     this.state = {
       stations: [],
+      date: Date()
     };
 
     // this.componentDidMount.bind(this);
+    this.setDate = this.setDate.bind(this);
+  }
+
+  setDate(date){
+    console.log(date);
+    this.setState({date: date});
   }
 
   componentDidMount(){
     let currentComponent = this;
+
     const {match: {params}} = this.props;
     axios.get(`https://andromeda-api-buscabar.herokuapp.com/stations/state/${params.idState}`)
       .then(function (response) {
@@ -26,7 +42,7 @@ class MyCompStates extends React.Component{
         console.log(response);
         let stations = response.data.station.map((station) => {
           return(
-            <Link to={"/stations/" + station.station} class="col-12 text-center border-bottom border-secondary py-2" style={{borderWidth: "0.3px"}}>
+            <Link to={`/${station.station}/start`} class="col-12 text-center border-bottom border-secondary py-2" style={{borderWidth: "0.3px"}}>
               <h4>{station.station}</h4>
             </Link>
           )
@@ -62,6 +78,11 @@ class MyCompStates extends React.Component{
                       <h2><b>Estaciones</b></h2>
                     </div>
                     {this.state.stations}
+                    <div class="mx-auto">
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <DatePicker value={this.state.date} onChange={this.setDate} variant="static" orientation="landscape" />
+                    </MuiPickersUtilsProvider>
+                    </div>
                   </div>
                 </div>
 
