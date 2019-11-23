@@ -1,5 +1,7 @@
 import React from 'react';
 import Navigation from './navigation';
+import {Link} from 'react-router-dom';
+
 const axios = require('axios');
 
 // import './App.css';
@@ -9,7 +11,7 @@ class MyCompStates extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      countries: [],
+      states: [],
     };
 
     // this.componentDidMount.bind(this);
@@ -17,22 +19,20 @@ class MyCompStates extends React.Component{
 
   componentDidMount(){
     let currentComponent = this;
-    axios.get('https://andromeda-api-buscabar.herokuapp.com/countries/')
+    const {match: {params}} = this.props;
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/states/country/${params.idCountry}`)
       .then(function (response) {
         // handle success
         console.log(response);
-        let countries = response.data.country.map((country) => {
+        let states = response.data.state.map((state) => {
           return(
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="row p-3">
-                <div class="col-12 d-flex align-items-center bg-center" style={{backgroundImage: `url(${country.image})`, height: "150px"}}>
-                  <h3 class="mx-auto text-white"><b>{country.country}</b></h3>
-                </div>
-              </div>
-            </div>
+            <Link to={"/stations/" + state.state} class="col-12 text-center border-bottom border-secondary py-2" style={{borderWidth: "0.3px"}}>
+              <h4>{state.state}</h4>
+            </Link>
           )
         })
-        currentComponent.setState({countries: countries});
+        currentComponent.setState({states: states});
+        console.log(currentComponent.state);
       })
       .catch(function (error) {
         // handle error
@@ -58,7 +58,10 @@ class MyCompStates extends React.Component{
 
                 <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                   <div class="row">
-
+                    <div class="col-12 mb-4">
+                      <h2><b>Estados</b></h2>
+                    </div>
+                    {this.state.states}
                   </div>
                 </div>
 

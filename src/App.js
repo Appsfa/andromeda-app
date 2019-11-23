@@ -13,6 +13,7 @@ import {
 import './App.css';
 import Start from './components/start';
 import States from './components/states';
+import Stations from './components/stations';
 import Home from './components/index';
 import Login from './components/login';
 import Dashboard from './components/dashboard/index';
@@ -29,7 +30,8 @@ import Benefits from './components/dashboard/benefits/index';
 
 const App = () => (
   <BrowserRouter>
-    <Route exact path="/states" component={States} />
+    <Route exact path="/states/:idCountry" component={States} />
+    <Route exact path="/stations/:idState" component={Stations} />
     <Route path="/home" component={Home} />
     <Route path="/start" component={Start} />
     <Route path="/login" component={Login} />

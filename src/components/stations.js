@@ -6,12 +6,12 @@ const axios = require('axios');
 
 // import './App.css';
 
-class MyComp extends React.Component{
+class MyCompStates extends React.Component{
 
   constructor(props){
     super(props);
     this.state = {
-      countries: [],
+      stations: [],
     };
 
     // this.componentDidMount.bind(this);
@@ -19,23 +19,20 @@ class MyComp extends React.Component{
 
   componentDidMount(){
     let currentComponent = this;
-    axios.get('https://andromeda-api-buscabar.herokuapp.com/countries/')
+    const {match: {params}} = this.props;
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/stations/state/${params.idState}`)
       .then(function (response) {
         // handle success
         console.log(response);
-        let countries = response.data.country.map((country) => {
+        let stations = response.data.station.map((station) => {
           return(
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="row p-3">
-                <Link to={"/states/" + country.country} class="col-12 d-flex align-items-center bg-center" style={{backgroundImage: `url(${country.image})`, height: "150px"}}>
-                  <h3 class="mx-auto text-white"><b>{country.country}</b></h3>
-                </Link>
-              </div>
-            </div>
+            <Link to={"/stations/" + station.station} class="col-12 text-center border-bottom border-secondary py-2" style={{borderWidth: "0.3px"}}>
+              <h4>{station.station}</h4>
+            </Link>
           )
         })
-        currentComponent.setState({countries: countries});
-        console.log(`State: ${currentComponent.state.countries}`);
+        currentComponent.setState({stations: stations});
+        console.log(currentComponent.stations);
       })
       .catch(function (error) {
         // handle error
@@ -61,7 +58,10 @@ class MyComp extends React.Component{
 
                 <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                   <div class="row">
-                    {this.state.countries}
+                    <div class="col-12 mb-4">
+                      <h2><b>Estaciones</b></h2>
+                    </div>
+                    {this.state.stations}
                   </div>
                 </div>
 
@@ -75,4 +75,4 @@ class MyComp extends React.Component{
     }
 
 }
-export default MyComp;
+export default MyCompStates;
