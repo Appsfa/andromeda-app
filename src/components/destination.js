@@ -2,37 +2,52 @@ import React from 'react';
 import Navigation from './navigation';
 import {Link} from 'react-router-dom';
 
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+
 const axios = require('axios');
 
 // import './App.css';
 
-class MyCompStates extends React.Component{
+class MyCompDest extends React.Component{
 
   constructor(props){
     super(props);
     this.state = {
-      states: [],
+      planets: [],
+      date: Date()
     };
 
     // this.componentDidMount.bind(this);
+    this.setDate = this.setDate.bind(this);
+  }
+
+  setDate(date){
+    console.log(date);
+    this.setState({date: date});
   }
 
   componentDidMount(){
     let currentComponent = this;
+
     const {match: {params}} = this.props;
-    axios.get(`https://andromeda-api-buscabar.herokuapp.com/states/country/${params.idCountry}`)
+    axios.get(`https://andromeda-api-buscabar.herokuapp.com/planets`)
       .then(function (response) {
         // handle success
         console.log(response);
-        let states = response.data.state.map((state) => {
+        let planets = response.data.planet.map((planet) => {
           return(
-            <Link to={"/stations/" + state.state} class="col-12 text-center border-bottom border-secondary py-2 text-black" style={{borderWidth: "0.3px"}}>
-              <h4>{state.state}</h4>
+            <Link to={`/flights/${params.idStation}/${planet.name}/`} class="col-12 text-center border-bottom border-secondary py-2 text-black" style={{borderWidth: "0.3px"}}>
+              <h4>{planet.name} <span class="text-danger">{!planet.goBack ? "*" : ""}</span></h4>
             </Link>
           )
         })
-        currentComponent.setState({states: states});
-        console.log(currentComponent.state);
+        currentComponent.setState({planets: planets});
       })
       .catch(function (error) {
         // handle error
@@ -59,9 +74,14 @@ class MyCompStates extends React.Component{
                 <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                   <div class="row">
                     <div class="col-12 mb-4">
-                      <h2><b>Estados</b></h2>
+                      <h2><b>Destinos</b></h2>
                     </div>
-                    {this.state.states}
+                    {this.state.planets}
+                    <div class="mx-auto">
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <DatePicker value={this.state.date} onChange={this.setDate} variant="static" orientation="landscape" />
+                    </MuiPickersUtilsProvider>
+                    </div>
                   </div>
                 </div>
 
@@ -75,4 +95,4 @@ class MyCompStates extends React.Component{
     }
 
 }
-export default MyCompStates;
+export default MyCompDest;

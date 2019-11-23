@@ -4,7 +4,7 @@ import SideNav from './../side-nav';
 import {Link} from 'react-router-dom';
 // import { Button } from 'react-bootstrap';
 // import Modal from 'react-bootstrap/Modal'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input } from 'reactstrap';
 import toaster from "toasted-notes";
 import $ from 'jquery';
 import "toasted-notes/src/styles.css"; // optional styles
@@ -201,7 +201,7 @@ class Spaceships extends React.Component{
         let spaceships = response.data.spaceship.map((spaceship) => {
           return(
             <div class="col-12 border-bottom border-secondary py-2 d-flex justify-content-between" style={{borderWidth: "0.3px"}}>
-              <Link to={"/dashboard/spaceships/" + spaceship._id} class="d-flex align-items-center no-under-line-hover text-black">{spaceship._id} {spaceship.type}</Link>
+              <Link to={"/dashboard/spaceships/" + spaceship._id} class="d-flex align-items-center no-under-line-hover text-black">{spaceship._id} - {spaceship.type}</Link>
               <button class="btn material-icons icon-md" onClick={currentComponent.getSpaceship} data-spaceship={spaceship._id}>more_vert</button>
             </div>
           )
@@ -273,10 +273,15 @@ class Spaceships extends React.Component{
                 <form id="formCreate" onSubmit={this.createSpaceship}>
                   <div class="form-row">
 
-                    <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtType" class="black-text">Tipo de Nave Espacial</label>
-                      <input class="form-control material-design-black" onChange={this.handleTypeChange} type="text" placeholder="Tipo de Nave Espacial" id="txtType" />
-                    </div>
+                    <FormGroup className="col-12 form-group px-2 mb-4">
+                      <Label for="txtType">Tipo de Nave Espacial</Label>
+                      <Input type="select" name="select" id="txtType" onChange={this.handleTypeChange}>
+                        <option value="" selected>Seleccionar Tipo de Nave Espacial</option>
+                        <option value="Boomerang">Boomerang</option>
+                        <option value="MilkyWays">MilkyWays</option>
+                        <option value="Interestelar">Interestelar</option>
+                      </Input>
+                    </FormGroup>
 
                     <div class="col-12 form-group px-2 mb-4">
                       <label for="txtTotalSeats" class="black-text">Asientos Totales</label>
@@ -300,10 +305,15 @@ class Spaceships extends React.Component{
                 <form id="formUpdate" onSubmit={this.updateSpaceship}>
                   <div class="form-row">
 
-                    <div class="col-12 form-group px-2 mb-4">
-                      <label for="txtEditType" class="black-text">Tipo de Nave Espacial</label>
-                      <input class="form-control material-design-black" onChange={this.handleEditTypeChange} type="text" placeholder="Tipo de nave espacial"  id="txtEditType" required />
-                    </div>
+                    <FormGroup className="col-12 form-group px-2 mb-4">
+                      <Label for="txtEditType">Tipo de Nave Espacial</Label>
+                      <Input type="select" name="select" id="txtEditType" onChange={this.handleEditTypeChange}>
+                        <option value="">Seleccionar Tipo de Nave Espacial</option>
+                        <option value="Boomerang">Boomerang</option>
+                        <option value="MilkyWays">MilkyWays</option>
+                        <option value="Interestelar">Interestelar</option>
+                      </Input>
+                    </FormGroup>
 
                     <div class="col-12 form-group px-2 mb-4">
                       <label for="txtEditTotalSeats" class="black-text">Asientos Totales</label>

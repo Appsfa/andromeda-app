@@ -42,7 +42,7 @@ class MyCompStates extends React.Component{
         console.log(response);
         let stations = response.data.station.map((station) => {
           return(
-            <Link to={`/${station.station}/start`} class="col-12 text-center border-bottom border-secondary py-2" style={{borderWidth: "0.3px"}}>
+            <Link to={`/${station.station}/destinations`} class="col-12 text-center border-bottom border-secondary py-2 text-black" style={{borderWidth: "0.3px"}}>
               <h4>{station.station}</h4>
             </Link>
           )

@@ -7,7 +7,11 @@ class Login extends React.Component{
 
   constructor(props) {
     super(props);
-    this.state = {username: '', password: ''};
+    this.state = {
+      profile: window.localStorage,
+      username: '', password: '',
+      isLoggedIn: false
+    };
 
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePassChange = this.handlePassChange.bind(this);
@@ -33,6 +37,7 @@ class Login extends React.Component{
       window.localStorage.setItem("name", response.data.user.name);
       window.localStorage.setItem("profile", response.data.user.profile);
       this.props.history.push("/home");
+      // this.setState({profile: window.localStorage});
     })
     .catch(function (error) {
       console.log(error);
@@ -57,7 +62,10 @@ class Login extends React.Component{
       window.localStorage.setItem("password", currentComponent.state.password);
       window.localStorage.setItem("token", response.data.accessToken);
       window.localStorage.setItem("session", true);
+      // this.setState({profile: window.localStorage});
+      currentComponent.setState({isLoggedIn: true});
       currentComponent.saveData();
+
     })
     .catch(function (error) {
       console.log(error);
@@ -68,7 +76,9 @@ class Login extends React.Component{
       return (
         <div class="">
           <header>
-            <Navigation/>
+            <Navigation
+              isLoggedIn={this.state.isLoggedIn}
+            />
           </header>
           <div class="container-fluid">
             <div class="row">

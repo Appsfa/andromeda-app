@@ -7,7 +7,9 @@ class Navigation extends React.Component{
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoggedIn: this.props.isLoggedIn
+    };
 
     this.handleLogOut = this.handleLogOut.bind(this);
   }

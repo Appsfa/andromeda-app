@@ -14,8 +14,10 @@ import './App.css';
 import Start from './components/start';
 import States from './components/states';
 import Stations from './components/stations';
+import Destination from './components/destination';
 import Home from './components/index';
 import Login from './components/login';
+
 import Dashboard from './components/dashboard/index';
 import Countries from './components/dashboard/countries/index';
 import Country from './components/dashboard/countries/country';
@@ -23,8 +25,10 @@ import Planets from './components/dashboard/planets/index';
 import Classes from './components/dashboard/classes/index';
 import Status from './components/dashboard/status/index';
 import Spaceships from './components/dashboard/spaceships/index';
+import Spaceship from './components/dashboard/spaceships/spaceships';
 import AdditionalService from './components/dashboard/additional_service/index';
 import Benefits from './components/dashboard/benefits/index';
+import Dashboard_Flights from './components/dashboard/flights/index';
 
 
 
@@ -32,11 +36,15 @@ const App = () => (
   <BrowserRouter>
     <Route exact path="/states/:idCountry" component={States} />
     <Route exact path="/stations/:idState" component={Stations} />
+    <Route exact path="/:idStation/destinations" component={Destination} />
     <Route path="/home" component={Home} />
     <Route path="/start" component={Start} />
     <Route path="/login" component={Login} />
+
+    <Route exact path="/dashboard/flights" component={Dashboard_Flights} />
     <Route exact path="/dashboard/benefits" component={Benefits} />
     <Route exact path="/dashboard/spaceships" component={Spaceships} />
+    <Route exact path="/dashboard/spaceships/:idSpaceship" component={Spaceship} />
     <Route exact path="/dashboard/additional_service" component={AdditionalService} />
     <Route exact path="/dashboard/status" component={Status} />
     <Route exact path="/dashboard/classes" component={Classes} />
