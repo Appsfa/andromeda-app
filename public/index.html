@@ -125,5 +125,35 @@
 
     });
 
+    $(".heightest").css('min-height', $(window).height());
+
+    $(".close-menu").on('click', function(event) {
+  var datamenu = $(this).attr('data-menu');
+  $(datamenu).removeClass('slide-down');
+  $(datamenu).addClass('slide-out-top');
+  $(datamenu).removeClass('active');
+});
+
+$(".open-menu").on('click', function(event) {
+  var datamenu = $(this).attr('data-menu');
+  chechMenus(datamenu.replace("#", ""));
+  $(datamenu).removeClass('d-none slide-out-top');
+  $(datamenu).addClass('slide-down');
+  $(datamenu).addClass('active');
+});
+
+function chechMenus(element)
+{
+  // console.log(element);
+  $(".menu").each(function() {
+    if($(this).attr("id") != element)
+    {
+      $(this).removeClass('slide-down');
+      $(this).addClass('slide-out-top');
+      $(this).removeClass('active');
+    }
+  });
+}
+
     </script>
 </html>
